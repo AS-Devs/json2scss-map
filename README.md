@@ -1,11 +1,11 @@
-# json2sass
+# json2scss-map
 
 Streamy module that transforms a JSON stream into scss syntax Sass.
 
-json2sass converts JSON objects into Sass maps, which are supported in Ruby Sass 3.3 and libsass 2.0.
+json2sass-map converts JSON objects into Sass maps, which are supported in Ruby Sass 3.3 and libsass 2.0.
 
 ```
-npm install --save-dev json2sass
+npm i --save-dev json2sass
 ```
 
 ## Why?
@@ -23,11 +23,9 @@ Example source file `theme.json`:
   "colors": {
     "primary": "#FFF200",
     "secondary": "#007BFF",
-    "grey": "#ADADAD",
-    "dark-grey": "#6F6F6F",
     "success": "#388E3C",
     "error": "#EF5350",
-    "text-black": "#333333"
+    "text": "#333333"
   }
 }
 
@@ -37,15 +35,13 @@ Output `theme.scss`:
 
 ```scss
 $variable:(
-  font-primary: 'Muli',
+  font-primary: 'Roboto',
   colors: (
     primary: #FFF200,
     secondary: #007BFF,
-    grey: #ADADAD,
-    dark-grey: #6F6F6F,
     success: #388E3C,
     error: #EF5350,
-    text-black: #333333
+    text: #333333
   )
 );
 ```
@@ -54,31 +50,37 @@ you can use the Node fs Module:
 
 ``` javascript
 var fs = require('fs');
-var jsonSass = require('json-to-sass');
+var json2scss = require('json2scss');
 
 fs.createReadStream('theme.json')
-  .pipe(jsonSass({
+  .pipe(json2scss({
     prefix: '$variable: ',
   }))
   .pipe(fs.createWriteStream('theme.scss'));
 ```
 
+Then, you can get the values from scss:map 
+
+```scss
+  $color-primary: map-get(map-get($variable, colors), primary)
+```
+
 You can also transform normal JavaScript values using the exposed utility function:
 
 ```javascript
-jsonSass.convertJs([1, 2, 3]); // (1, 2, 3)
+json2scss.convertJs([1, 2, 3]); // (1, 2, 3)
 ```
 
 ## API
 
-### `jsonSass([opts])`
+### `json2scss([opts])`
 
 Returns a through stream. Available options:
 
 - `prefix`: Add some text to the beginning
 - `suffix`: Add some text to the end. Defaults to `';'`.
 
-### `jsonSass.convertJs(jsValue)`
+### `json2scss.convertJs(jsValue)`
 
 Convert a normal JavaScript value to its string representation in Sass. Ignores `undefined` and functions. Calls `.toString()` on non-plain object instances.
 
