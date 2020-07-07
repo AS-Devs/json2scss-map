@@ -2,7 +2,7 @@
 
 'use strict';
 
-let jsonSass = require('../jsonSass');
+let json2scss = require('../json2scss');
 let fs = require('fs');
 let path = require('path');
 let minimist = require('minimist');
@@ -19,7 +19,7 @@ let argv = minimist(process.argv.slice(2), {
     default: { i: '-', o: '-' }
 });
 
-if (argv.help) return showHelp(0);
+if (argv.help) showHelp(0);
 
 let input;
 if (argv.infile === '-') {
@@ -47,7 +47,7 @@ let opts = {};
 if (argv.prefix) opts.prefix = argv.prefix;
 if (argv.suffix) opts.suffix = argv.suffix;
 
-input.pipe(jsonSass(opts)).pipe(output);
+input.pipe(json2scss(opts)).pipe(output);
 
 function showHelp(code) {
   let r = fs.createReadStream(path.join(__dirname, '../../usage.txt'));

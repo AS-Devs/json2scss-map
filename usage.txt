@@ -1,4 +1,4 @@
-usage: json-sass {OPTIONS}
+usage: json-to-sass {OPTIONS}
 
   -i, --infile   Read input from a file. Default: "-" (stdin)
   -o, --outfile  Write output to a file. Default: "-" (stdout)

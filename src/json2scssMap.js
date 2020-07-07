@@ -1,11 +1,11 @@
 'use strict';
 
-import isPlainObject from 'lodash-node/modern/objects/isPlainObject';
+import { isPlainObject, isUndefined, isNull } from 'lodash';
 let { isArray } = Array;
 
-function jsToSassString(value) {
+function json2scssMap(value) {
 
-  function _jsToSassString(value, initialIndentLevel = 0) {
+  function _json2scssMap(value, initialIndentLevel = 0) {
     let indentLevel = initialIndentLevel;
 
     switch (typeof value) {
@@ -25,9 +25,9 @@ function jsToSassString(value) {
           sassKeyValPairs = Object.keys(jsObj)
             .reduce((result, key) => {
               let jsVal = jsObj[key];
-              let sassVal = _jsToSassString(jsVal, indentLevel);
+              let sassVal = _json2scssMap(jsVal, indentLevel);
 
-              if (isNotUndefined(sassVal)) {
+              if (!isUndefined(sassVal)) {
                 result.push(`${key}: ${sassVal}`);
               }
 
@@ -39,10 +39,10 @@ function jsToSassString(value) {
           return result;
         }
         else if (isArray(value)) {
-          let sassVals = [
-            for (v of value) if (isNotUndefined(v))
-              _jsToSassString(v, indentLevel)
-          ];
+          let sassVals = value.filter(v => {
+              if(!isUndefined(v)) return _json2scssMap(v, indentLevel)
+            })
+          
 
           return '(' + sassVals.join(', ') + ')';
         }
@@ -53,19 +53,9 @@ function jsToSassString(value) {
     }
   }
 
-  return _jsToSassString(value);
+  return _json2scssMap(value);
 }
 
-function indentsToSpaces(indentCount) {
-  return Array(indentCount + 1).join('  ');
-}
+const indentsToSpaces = (indentCount) =>  Array(indentCount + 1).join('  ');
 
-function isNull(value) {
-  return value === null;
-}
-
-function isNotUndefined(value) {
-  return typeof value !== 'undefined';
-}
-
-export default jsToSassString;
+export default json2scssMap;

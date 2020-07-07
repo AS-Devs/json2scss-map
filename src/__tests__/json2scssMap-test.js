@@ -1,7 +1,7 @@
 'use strict';
 
 import { expect } from 'chai';
-import jsToSassString from '../jsToSassString';
+import json2scssMap from '../json2scssMap';
 
 function Foo() {
   this.toString = function() {
@@ -11,34 +11,34 @@ function Foo() {
 
 var foo = new Foo();
 
-describe('JS to Sass', function() {
+describe('JSON to SCSS Map', function() {
   it('should handle strings', function() {
-    expect(jsToSassString('foo')).to.equal('foo');
+    expect(json2scssMap('foo')).to.equal('foo');
   });
 
   it('should handle booleans', function() {
-    expect(jsToSassString(true)).to.equal('true');
-    expect(jsToSassString(false)).to.equal('false');
+    expect(json2scssMap(true)).to.equal('true');
+    expect(json2scssMap(false)).to.equal('false');
   });
 
   it('should handle null', function() {
-    expect(jsToSassString(null)).to.equal('null');
+    expect(json2scssMap(null)).to.equal('null');
   });
 
   it('should ignore undefined', function() {
-    expect(jsToSassString(undefined)).to.be.undefined;
+    expect(json2scssMap(undefined)).to.be.undefined;
   });
 
   it('should ignore functions', function() {
-    expect(jsToSassString(function() {})).to.be.undefined;
+    expect(json2scssMap(function() {})).to.be.undefined;
   });
 
   it ('should use value of `.toString()` for non-plain objects', function() {
-    expect(jsToSassString(foo)).to.equal('bar');
+    expect(json2scssMap(foo)).to.equal('bar');
   });
 
   it('should convert arrays to lists', function() {
-    expect(jsToSassString([1, 2, 3])).to.equal('(1, 2, 3)');
+    expect(json2scssMap([1, 2, 3])).to.equal('(1, 2, 3)');
   });
 
   it('should convert objects to maps, with indentation', function() {
@@ -49,6 +49,6 @@ describe('JS to Sass', function() {
       },
     };
 
-    expect(jsToSassString(obj)).to.equal('(\n  foo: bar,\n  bar: (\n    baz: foo\n  )\n)')
+    expect(json2scssMap(obj)).to.equal('(\n  foo: bar,\n  bar: (\n    baz: foo\n  )\n)')
   })
 });
