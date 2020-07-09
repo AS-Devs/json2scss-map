@@ -13,7 +13,7 @@ function json2scssMap(value) {
       case 'number':
         return value.toString();
       case 'string':
-        return value;
+        return quoteString(value);
       case 'object':
         if (isPlainObject(value)) {
           indentLevel += 1;
@@ -28,7 +28,7 @@ function json2scssMap(value) {
               let sassVal = _json2scssMap(jsVal, indentLevel);
 
               if (!isUndefined(sassVal)) {
-                result.push(`${key}: ${sassVal}`);
+                result.push(`"${key}": ${sassVal}`);
               }
 
               return result;
@@ -57,5 +57,11 @@ function json2scssMap(value) {
 }
 
 const indentsToSpaces = (indentCount) =>  Array(indentCount + 1).join('  ');
-
+const quoteString = (value) => {
+  const regx = /(px|rem|em|%|vw|vh)/g;
+  if (value.substring(0,1) === '#' || regx.test(value)) {
+    return value;
+  }
+  return "\"" + value + "\"";
+}
 export default json2scssMap;

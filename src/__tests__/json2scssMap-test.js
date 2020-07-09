@@ -13,7 +13,8 @@ var foo = new Foo();
 
 describe('JSON to SCSS Map', function() {
   it('should handle strings', function() {
-    expect(json2scssMap('foo')).to.equal('foo');
+    expect(json2scssMap('foo')).to.equal('"foo"');
+    expect(json2scssMap('12px')).to.equal('12px');
   });
 
   it('should handle booleans', function() {
@@ -49,6 +50,6 @@ describe('JSON to SCSS Map', function() {
       },
     };
 
-    expect(json2scssMap(obj)).to.equal('(\n  foo: bar,\n  bar: (\n    baz: foo\n  )\n)')
+    expect(json2scssMap(obj)).to.equal('(\n  "foo": "bar",\n  "bar": (\n    "baz": "foo"\n  )\n)')
   })
 });

@@ -19,5 +19,7 @@ function json2scss(options) {
   });
 }
 
-json2scss.convertJs = json2scssMap;
+module.exports = json2scss;
+module.exports.convertJs = json2scssMap;
 export default json2scss;
+export { json2scssMap as convertJs };

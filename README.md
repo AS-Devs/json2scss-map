@@ -1,11 +1,11 @@
 # json2scss-map
 
-Streamy module that transforms a JSON stream into scss syntax Sass.
+Utility module that converts a JSON stream into scss syntax sass-map
 
-json2sass-map converts JSON objects into Sass maps, which are supported in Ruby Sass 3.3 and libsass 2.0.
+json2scss-map converts JSON objects into Sass maps, which are supported in Ruby Sass 3.3 and libsass 2.0.
 
 ```
-npm i --save-dev json2sass
+npm i --save-dev json2scss-map
 ```
 
 ## Why?
@@ -19,13 +19,15 @@ But jsonSass package isn't maintained from last 5+ years. As we use this package
 Example source file `theme.json`:
 ```
 {
-  "font-primary": "'Roboto'",
+  "font-primary": "Roboto",
   "colors": {
-    "primary": "#FFF200",
-    "secondary": "#007BFF",
+    "primary": "#0007bff",
     "success": "#388E3C",
     "error": "#EF5350",
-    "text": "#333333"
+    "text-black": "#333333"
+  },
+  "fonts": {
+    "txt-12": "11px"
   }
 }
 
@@ -35,13 +37,15 @@ Output `theme.scss`:
 
 ```scss
 $variable:(
-  font-primary: 'Roboto',
-  colors: (
-    primary: #FFF200,
-    secondary: #007BFF,
-    success: #388E3C,
-    error: #EF5350,
-    text: #333333
+  "font-primary": "Roboto",
+  "colors": (
+    "primary": #007bff,
+    "success": #388E3C,
+    "error": #EF5350,
+    "text-black": #333333
+  ),
+  "fonts": (
+    "txt-12": 11px
   )
 );
 ```
@@ -50,7 +54,7 @@ you can use the Node fs Module:
 
 ``` javascript
 var fs = require('fs');
-var json2scss = require('json2scss');
+var json2scss = require('json2scss-map');
 
 fs.createReadStream('theme.json')
   .pipe(json2scss({
@@ -62,7 +66,8 @@ fs.createReadStream('theme.json')
 Then, you can get the values from scss:map 
 
 ```scss
-  $color-primary: map-get(map-get($variable, colors), primary)
+  $color-primary: map-get(map-get($variable, "colors"), "primary"); // #007bff
+  $font-family: map-get($variable, "font-primary"); // "Roboto"
 ```
 
 You can also transform normal JavaScript values using the exposed utility function:
@@ -70,6 +75,15 @@ You can also transform normal JavaScript values using the exposed utility functi
 ```javascript
 json2scss.convertJs([1, 2, 3]); // (1, 2, 3)
 ```
+## Added Feature on v1.4.0
+
+ 1. scss map supports key as string so, now map keys will be in string. 
+ 2. font sizes like rem, px, em and colors in hex value will return without string quote; which will help you to get the desire value from scss map.
+
+## ISSUE
+
+Please let us know the issues on issues tab. We will happy to fix the update the package .
+
 
 ## API
 
