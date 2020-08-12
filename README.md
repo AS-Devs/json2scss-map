@@ -24,11 +24,14 @@ Example source file `theme.json`:
     "primary": "#0007bff",
     "success": "#388E3C",
     "error": "#EF5350",
-    "text-black": "#333333"
+    "text-black": "#333333",
+    "black-overlay": "rgba(0, 0, 0, .2)"
   },
   "fonts": {
-    "txt-12": "11px"
-  }
+    "txt-12": "11px",
+    "txt-75": "75ch"
+  },
+  "w-80": "80vw"
 }
 
 ```
@@ -42,15 +45,18 @@ $variable:(
     "primary": #007bff,
     "success": #388E3C,
     "error": #EF5350,
-    "text-black": #333333
+    "text-black": #333333,
+    "black-overlay": rgba(0, 0, 0, .2)
   ),
   "fonts": (
-    "txt-12": 11px
-  )
+    "txt-12": 11px,
+    "txt-75": 75ch
+  ),
+  "w-80": 80vw
 );
 ```
 
-you can use the Node fs Module:
+you can use the Node fs Module (recommended):
 
 ``` javascript
 var fs = require('fs');
@@ -79,6 +85,10 @@ json2scss.convertJs([1, 2, 3]); // (1, 2, 3)
 
  1. scss map supports key as string so, now map keys will be in string. 
  2. font sizes like rem, px, em and colors in hex value will return without string quote; which will help you to get the desire value from scss map.
+
+## Added Feature on v1.4.1
+ 1. Added support for ch unit as value .
+ 2. Also , Now you can use any color format you are not strict to use hex only . Use rgba, hsl, rgb etc.
 
 ## ISSUE
 
