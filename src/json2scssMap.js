@@ -1,7 +1,6 @@
 'use strict';
 
-import { isPlainObject, isUndefined, isNull } from 'lodash';
-let { isArray } = Array;
+import { isPlainObject, isUndefined, isNull, isArray } from 'lodash';
 
 function json2scssMap(value) {
 
@@ -42,8 +41,6 @@ function json2scssMap(value) {
           let sassVals = value.filter(v => {
               if(!isUndefined(v)) return _json2scssMap(v, indentLevel)
             })
-          
-
           return '(' + sassVals.join(', ') + ')';
         }
         else if (isNull(value)) return 'null';
@@ -58,8 +55,9 @@ function json2scssMap(value) {
 
 const indentsToSpaces = (indentCount) =>  Array(indentCount + 1).join('  ');
 const quoteString = (value) => {
-  const regx = /(px|rem|em|%|vw|vh)/g;
-  if (value.substring(0,1) === '#' || regx.test(value)) {
+  const regx = /(px|rem|em|%|vw|vh|ch)/g;
+  const regexColor = /(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))/ig;
+  if (regexColor.test(value) || regx.test(value)) {
     return value;
   }
   return "\"" + value + "\"";
