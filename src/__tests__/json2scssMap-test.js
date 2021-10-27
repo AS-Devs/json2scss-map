@@ -66,4 +66,9 @@ describe('JSON to SCSS Map', function() {
 
     expect(json2scssMap(obj)).to.equal('((\n  "foo": "bar"\n), (\n  "baz": 4\n))');
   });
+  it('should correctly convert a single-item list', function() {
+    var obj = [ 'only item' ];
+
+    expect(json2scssMap(obj)).to.equal('("only item",)');
+  });
 });
