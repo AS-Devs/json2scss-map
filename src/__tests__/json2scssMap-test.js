@@ -54,8 +54,8 @@ describe('JSON to SCSS Map', function() {
       },
     };
 
-    expect(json2scssMap(obj)).to.equal('(\n  "foo": "bar",\n  "bar": (\n    "baz": "foo"\n  )\n)')
-  })
+    expect(json2scssMap(obj)).to.equal('(\n  "foo": "bar",\n  "bar": (\n    "baz": "foo"\n  )\n)');
+  });
 
   it('should convert an array of objects to a list of maps', function() {
     var obj = [
