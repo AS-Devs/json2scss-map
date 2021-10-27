@@ -41,7 +41,11 @@ function json2scssMap(value) {
           let sassVals = value.map(v => {
               if(!isUndefined(v)) return _json2scssMap(v, indentLevel)
             })
-          return '(' + sassVals.join(', ') + ')';
+          if (sassVals.length > 1)
+            sassVals = sassVals.join(', ');
+          else
+            sassVals = sassVals[0] + ',';
+          return '(' + sassVals + ')';
         }
         else if (isNull(value)) return 'null';
         else return value.toString();
