@@ -38,7 +38,7 @@ function json2scssMap(value) {
           return result;
         }
         else if (isArray(value)) {
-          let sassVals = value.filter(v => {
+          let sassVals = value.map(v => {
               if(!isUndefined(v)) return _json2scssMap(v, indentLevel)
             })
           return '(' + sassVals.join(', ') + ')';
