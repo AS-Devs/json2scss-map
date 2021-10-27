@@ -59,7 +59,7 @@ function json2scssMap(value) {
 
 const indentsToSpaces = (indentCount) =>  Array(indentCount + 1).join('  ');
 const quoteString = (value) => {
-  const regx = /(px|rem|em|%|vw|vh|ch)/g;
+  const regx = /^[\d.]*\d(px|rem|em|%|vw|vh|ch)$/g;
   const regexColor = /(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))/ig;
   if (regexColor.test(value) || regx.test(value)) {
     return value;

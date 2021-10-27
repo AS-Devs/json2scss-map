@@ -14,9 +14,10 @@ var foo = new Foo();
 describe('JSON to SCSS Map', function() {
   it('should handle strings', function() {
     expect(json2scssMap('foo')).to.equal('"foo"');
+    expect(json2scssMap('item')).to.equal('"item"');
     expect(json2scssMap('12px')).to.equal('12px');
     expect(json2scssMap('14ch')).to.equal('14ch');
-    expect(json2scssMap('2rem')).to.equal('2rem');
+    expect(json2scssMap('2.4rem')).to.equal('2.4rem');
     expect(json2scssMap('#232323')).to.equal('#232323');
     expect(json2scssMap('rgba(255,34,21, .6)')).to.equal('rgba(255,34,21, .6)');
   });
