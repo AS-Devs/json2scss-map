@@ -1,18 +1,22 @@
 'use strict';
 
 import { isPlainObject, isUndefined, isNull, isArray } from 'lodash';
+import { hexAToHSLA, hexToHSL } from './ColorConvertion';
 
-function json2scssMap(value) {
+let DEFAULTOPTION = {
+  colorCovertion: true,
+  convertTo: 'hsl'
+}
 
-  function _json2scssMap(value, initialIndentLevel = 0) {
+function json2scssMap(value, options = DEFAULTOPTION) {
+  function _json2scssMap(value, initialIndentLevel = 0, options) {
     let indentLevel = initialIndentLevel;
-
     switch (typeof value) {
       case 'boolean':
       case 'number':
         return value.toString();
       case 'string':
-        return quoteString(value);
+        return quoteString(value, options);
       case 'object':
         if (isPlainObject(value)) {
           indentLevel += 1;
@@ -50,15 +54,28 @@ function json2scssMap(value) {
     }
   }
 
-  return _json2scssMap(value);
+  return _json2scssMap(value, 0, options);
 }
 
 const indentsToSpaces = (indentCount) =>  Array(indentCount + 1).join('  ');
-const quoteString = (value) => {
+const quoteString = (value, options) => {
   const regx = /(px|rem|em|%|vw|vh|ch)/g;
   const regexColor = /(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))/ig;
-  if (regexColor.test(value) || regx.test(value)) {
+  if (regx.test(value)) {
     return value;
+  }else if(regexColor.test(value)){
+    // Means this section is for color
+    if(!options.colorCovertion) {
+      return value;
+    }
+    if(options.convertTo === 'hsl' || options.convertTo === 'HSL') {
+      let isHexColor = /^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/i;
+      let isHexAColor = /^#([a-f0-9]{8}|[a-f0-9]{4})\b$/gi;
+      if(isHexColor.test(value)) return hexToHSL(value);
+      if(isHexAColor.test(value)) return hexAToHSLA(value);
+      return value;
+    }
+
   }
   return "\"" + value + "\"";
 }

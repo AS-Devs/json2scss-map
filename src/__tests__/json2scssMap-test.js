@@ -17,8 +17,13 @@ describe('JSON to SCSS Map', function() {
     expect(json2scssMap('12px')).to.equal('12px');
     expect(json2scssMap('14ch')).to.equal('14ch');
     expect(json2scssMap('2rem')).to.equal('2rem');
-    expect(json2scssMap('#232323')).to.equal('#232323');
-    expect(json2scssMap('rgba(255,34,21, .6)')).to.equal('rgba(255,34,21, .6)');
+  });
+  
+  it('new Convertion to - HSL(A)', function() {
+    expect(json2scssMap('#232')).to.equal('hsl(120,20%,16.7%)');
+    expect(json2scssMap('#22ffff')).to.equal('hsl(180,100%,56.7%)');
+    expect(json2scssMap('#D9FFFFD1')).to.equal('hsla(180,100%,92.5%,0.82)');
+    // expect(json2scssMap('rgba(255,34,21, .6)')).to.equal('rgba(255,34,21, .6)');
   });
 
   it('should handle booleans', function() {
