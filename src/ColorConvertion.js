@@ -97,5 +97,151 @@ const hexAToHSLA = (H) => {
 
 }
 
+const stringToRGBA = (rgba) => {
+  let sep = rgba.indexOf(",") > -1 ? "," : " ";
+  rgba = rgba.substr(5).split(")")[0].split(sep);
 
-export { hexToHSL, hexAToHSLA };
+  // Strip the slash if using space-separated syntax
+  if (rgba.indexOf("/") > -1) 
+    rgba.splice(3,1);
+
+  for (let R in rgba) {
+    let r = rgba[R];
+    if (r.indexOf("%") > -1) {
+      let p = r.substr(0,r.length - 1) / 100;
+
+      if (R < 3) { 
+        rgba[R] = Math.round(p * 255);
+      } else {
+        rgba[R] = p;
+      }
+    }
+  }
+
+  // Make r, g, and b fractions of 1
+  let r = rgba[0],
+      g = rgba[1],
+      b = rgba[2],
+      a = rgba[3];
+  return {red: r, green: g, blue: b, alpha: a};
+}
+
+const stringToRGB = (rgb) => {
+  let sep = rgb.indexOf(",") > -1 ? "," : " ";
+  rgb = rgb.substr(4).split(")")[0].split(sep);
+
+  // Strip the slash if using space-separated syntax
+  if (rgb.indexOf("/") > -1) 
+    rgb.splice(3,1);
+
+  for (let R in rgb) {
+    let r = rgb[R];
+    if (r.indexOf("%") > -1) {
+      let p = r.substr(0,r.length - 1) / 100;
+
+      if (R < 3) { 
+        rgb[R] = Math.round(p * 255);
+      }
+    }
+  }
+
+  // Make r, g, and b fractions of 1
+  let r = rgb[0],
+      g = rgb[1],
+      b = rgb[2];
+  return {red: r, green: g, blue: b};
+}
+
+const RGBToHSL = (r,g,b) => {
+  // Make r, g, and b fractions of 1
+  r /= 255;
+  g /= 255;
+  b /= 255;
+
+  // Find greatest and smallest channel values
+  let cmin = Math.min(r,g,b),
+      cmax = Math.max(r,g,b),
+      delta = cmax - cmin,
+      h = 0,
+      s = 0,
+      l = 0;
+  // Calculate hue
+  // No difference
+  if (delta == 0)
+  h = 0;
+  // Red is max
+  else if (cmax == r)
+    h = ((g - b) / delta) % 6;
+  // Green is max
+  else if (cmax == g)
+    h = (b - r) / delta + 2;
+  // Blue is max
+  else
+    h = (r - g) / delta + 4;
+
+  h = Math.round(h * 60);
+    
+  // Make negative hues positive behind 360°
+  if (h < 0)
+      h += 360;
+
+  // Calculate lightness
+  l = (cmax + cmin) / 2;
+
+  // Calculate saturation
+  s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+    
+  // Multiply l and s by 100
+  s = +(s * 100).toFixed(1);
+  l = +(l * 100).toFixed(1);
+
+  return "hsl(" + h + "," + s + "%," + l + "%)";
+}
+
+const rgbaToHSLA = (r,g,b,a) => {
+  // Make r, g, and b fractions of 1
+  r /= 255;
+  g /= 255;
+  b /= 255;
+
+  // Find greatest and smallest channel values
+  let cmin = Math.min(r,g,b),
+      cmax = Math.max(r,g,b),
+      delta = cmax - cmin,
+      h = 0,
+      s = 0,
+      l = 0;
+  // Calculate hue
+  // No difference
+  if (delta == 0)
+  h = 0;
+  // Red is max
+  else if (cmax == r)
+    h = ((g - b) / delta) % 6;
+  // Green is max
+  else if (cmax == g)
+    h = (b - r) / delta + 2;
+  // Blue is max
+  else
+    h = (r - g) / delta + 4;
+
+  h = Math.round(h * 60);
+    
+  // Make negative hues positive behind 360°
+  if (h < 0)
+      h += 360;
+
+  // Calculate lightness
+  l = (cmax + cmin) / 2;
+
+  // Calculate saturation
+  s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+    
+  // Multiply l and s by 100
+  s = +(s * 100).toFixed(1);
+  l = +(l * 100).toFixed(1);
+
+  return "hsla(" + h + "," + s + "%," + l + "%," + a + ")";
+}
+
+export { hexToHSL, hexAToHSLA, stringToRGBA, stringToRGB, RGBToHSL, rgbaToHSLA };

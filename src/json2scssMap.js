@@ -1,22 +1,22 @@
 'use strict';
 
 import { isPlainObject, isUndefined, isNull, isArray } from 'lodash';
-import { hexAToHSLA, hexToHSL } from './ColorConvertion';
+import { hexAToHSLA, hexToHSL, RGBToHSL, rgbaToHSLA, stringToRGBA, stringToRGB } from './ColorConvertion';
 
 let DEFAULTOPTION = {
-  colorCovertion: true,
+  colorConvertion: true,
   convertTo: 'hsl'
 }
 
-function json2scssMap(value, options = DEFAULTOPTION) {
-  function _json2scssMap(value, initialIndentLevel = 0, options) {
+const json2scssMap = (value, options = DEFAULTOPTION) => {
+  function _json2scssMap(value, initialIndentLevel = 0, colorConvertion, convertTo) {
     let indentLevel = initialIndentLevel;
     switch (typeof value) {
       case 'boolean':
       case 'number':
         return value.toString();
       case 'string':
-        return quoteString(value, options);
+        return quoteString(value, colorConvertion, convertTo);
       case 'object':
         if (isPlainObject(value)) {
           indentLevel += 1;
@@ -28,7 +28,7 @@ function json2scssMap(value, options = DEFAULTOPTION) {
           sassKeyValPairs = Object.keys(jsObj)
             .reduce((result, key) => {
               let jsVal = jsObj[key];
-              let sassVal = _json2scssMap(jsVal, indentLevel);
+              let sassVal = _json2scssMap(jsVal, indentLevel, colorConvertion, convertTo);
 
               if (!isUndefined(sassVal)) {
                 result.push(`"${key}": ${sassVal}`);
@@ -54,28 +54,38 @@ function json2scssMap(value, options = DEFAULTOPTION) {
     }
   }
 
-  return _json2scssMap(value, 0, options);
+  return _json2scssMap(value, 0, options.colorConvertion, options.convertTo);
 }
 
 const indentsToSpaces = (indentCount) =>  Array(indentCount + 1).join('  ');
-const quoteString = (value, options) => {
+const quoteString = (value, colorConvertion, convertTo) => {
   const regx = /(px|rem|em|%|vw|vh|ch)/g;
   const regexColor = /(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))/ig;
   if (regx.test(value)) {
     return value;
   }else if(regexColor.test(value)){
-    // Means this section is for color
-    if(!options.colorCovertion) {
-      return value;
-    }
-    if(options.convertTo === 'hsl' || options.convertTo === 'HSL') {
-      let isHexColor = /^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/i;
-      let isHexAColor = /^#([a-f0-9]{8}|[a-f0-9]{4})\b$/gi;
+    // Regex for Different Color Checking
+    const isHexColor = /^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/i;
+    const isHexAColor = /^#([a-f0-9]{8}|[a-f0-9]{4})\b$/gi;
+    const isRGBColor = /(^rgb\((\d+),\s*(\d+),\s*(\d+)\)$)/gi;
+    const isRGBAColor = /rgba\(\s*(25[0-5]|2[0-4]\d|1\d{1,2}|\d\d?)\s*,\s*(25[0-5]|2[0-4]\d|1\d{1,2}|\d\d?)\s*,\s*(25[0-5]|2[0-4]\d|1\d{1,2}|\d\d?)\s*,\s*([01\.]\.?\d?)?\s*\)/gi;
+    // if convertion is true && to HSL
+    if(colorConvertion && (convertTo === 'hsl' || convertTo === 'HSL' || convertTo === 'hsla' || convertTo === 'HSLA')) {
       if(isHexColor.test(value)) return hexToHSL(value);
       if(isHexAColor.test(value)) return hexAToHSLA(value);
+      if(isRGBAColor.test(value)) {
+        let colorObject = {};
+        colorObject = stringToRGBA(value);
+        return rgbaToHSLA(colorObject.red, colorObject.green, colorObject.blue, colorObject.alpha);
+      }
+      if(isRGBColor.test(value)) {
+        let colorObject = {};
+        colorObject = stringToRGB(value);
+        return RGBToHSL(colorObject.red, colorObject.green, colorObject.blue);
+      }
       return value;
     }
-
+    return value;
   }
   return "\"" + value + "\"";
 }
