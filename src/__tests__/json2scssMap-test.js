@@ -15,6 +15,7 @@ describe('JSON to SCSS Map', function() {
   it('should handle strings', function() {
     expect(json2scssMap('foo')).to.equal('"foo"');
     expect(json2scssMap('item')).to.equal('"item"');
+    expect(json2scssMap('ch')).to.equal('"ch"');
     expect(json2scssMap('12px')).to.equal('12px');
     expect(json2scssMap('14ch')).to.equal('14ch');
     expect(json2scssMap('2.4rem')).to.equal('2.4rem');

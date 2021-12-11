@@ -1,6 +1,6 @@
 {
   "name": "json2scss-map",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Covert JSON into scss map. Utility Tool for those who want there theme colors and font can be modified from json , but also use all the scss feature using scss varibles.",
   "main": "lib/json2scss.js",
   "bin": "lib/bin/json2scss",
