@@ -14,9 +14,11 @@ var foo = new Foo();
 describe('JSON to SCSS Map', function() {
   it('should handle strings', function() {
     expect(json2scssMap('foo')).to.equal('"foo"');
+    expect(json2scssMap('item')).to.equal('"item"');
+    expect(json2scssMap('ch')).to.equal('"ch"');
     expect(json2scssMap('12px')).to.equal('12px');
     expect(json2scssMap('14ch')).to.equal('14ch');
-    expect(json2scssMap('2rem')).to.equal('2rem');
+    expect(json2scssMap('2.4rem')).to.equal('2.4rem');
   });
   
   it('new Convertion to - HSL(A)', function() {
@@ -61,6 +63,20 @@ describe('JSON to SCSS Map', function() {
       },
     };
 
-    expect(json2scssMap(obj)).to.equal('(\n  "foo": "bar",\n  "bar": (\n    "baz": "foo"\n  )\n)')
-  })
+    expect(json2scssMap(obj)).to.equal('(\n  "foo": "bar",\n  "bar": (\n    "baz": "foo"\n  )\n)');
+  });
+
+  it('should convert an array of objects to a list of maps', function() {
+    var obj = [
+      { foo: 'bar' },
+      { baz: 4 }
+    ];
+
+    expect(json2scssMap(obj)).to.equal('((\n  "foo": "bar"\n), (\n  "baz": 4\n))');
+  });
+  it('should correctly convert a single-item list', function() {
+    var obj = [ 'only item' ];
+
+    expect(json2scssMap(obj)).to.equal('("only item",)');
+  });
 });

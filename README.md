@@ -90,6 +90,13 @@ json2scss.convertJs([1, 2, 3]); // (1, 2, 3)
  1. Added support for ch unit as value .
  2. Also , Now you can use any color format you are not strict to use hex only . Use rgba, hsl, rgb etc.
 
+## Minor Update on v1.4.2
+ 1. Improvement / Fix Regarding compiling Nested Array of Objects.
+ 2. Updated the unexpectedly remove Quotes from the strings.
+
+Thanks to the [Dylan Awalt-Conley](https://github.com/dawaltconley) for your PR.
+
+
 ## ISSUE
 
 Please let us know the issues on issues tab. We will happy to fix the update the package .
@@ -109,7 +116,6 @@ Returns a through stream. Available options:
 Convert a normal JavaScript value to its string representation in Sass. Ignores `undefined` and functions. Calls `.toString()` on non-plain object instances.
 
 ## License
-
 ISC
 
 [AS Developers](https://github.com/AS-Devs)
