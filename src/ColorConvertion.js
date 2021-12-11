@@ -244,4 +244,132 @@ const rgbaToHSLA = (r,g,b,a) => {
   return "hsla(" + h + "," + s + "%," + l + "%," + a + ")";
 }
 
-export { hexToHSL, hexAToHSLA, stringToRGBA, stringToRGB, RGBToHSL, rgbaToHSLA };
+const hexToRGB = (h) => {
+  let r = 0, g = 0, b = 0;
+
+  // 3 digits
+  if (h.length == 4) {
+    r = "0x" + h[1] + h[1];
+    g = "0x" + h[2] + h[2];
+    b = "0x" + h[3] + h[3];
+
+  // 6 digits
+  } else if (h.length == 7) {
+    r = "0x" + h[1] + h[2];
+    g = "0x" + h[3] + h[4];
+    b = "0x" + h[5] + h[6];
+  }
+  
+  return "rgb("+ +r + ", " + +g + ", " + +b + ")";
+}
+
+const hexAToRGBA = (h) => {
+  let r = 0, g = 0, b = 0, a = 1;
+
+  if (h.length == 5) {
+    r = "0x" + h[1] + h[1];
+    g = "0x" + h[2] + h[2];
+    b = "0x" + h[3] + h[3];
+    a = "0x" + h[4] + h[4];
+
+  } else if (h.length == 9) {
+    r = "0x" + h[1] + h[2];
+    g = "0x" + h[3] + h[4];
+    b = "0x" + h[5] + h[6];
+    a = "0x" + h[7] + h[8];
+  }
+  a = +(a / 255).toFixed(2);
+
+  return "rgba(" + +r + ", " + +g + ", " + +b + ", " + a + ")";
+}
+
+const stringToHSL = (hsl) => {
+  let sep = hsl.indexOf(",") > -1 ? "," : " ";
+  hsl = hsl.substr(4).split(")")[0].split(sep);
+
+  let h = hsl[0],
+      s = hsl[1].substr(0,hsl[1].length - 1),
+      l = hsl[2].substr(0,hsl[2].length - 1);
+  
+  // Strip label and convert to degrees (if necessary)
+  if (h.indexOf("deg") > -1) 
+    h = h.substr(0,h.length - 3);
+  else if (h.indexOf("rad") > -1)
+    h = Math.round(h.substr(0,h.length - 3) * (180 / Math.PI));
+  else if (h.indexOf("turn") > -1)
+    h = Math.round(h.substr(0,h.length - 4) * 360);
+  // Keep hue fraction of 360 if ending up over
+  if (h >= 360)
+    h %= 360;
+
+  return {hue: h, saturation: s, lightness: l};
+}
+
+const HSLToRGB = (h,s,l, returnValue = false) => {
+  // Must be fractions of 1
+  s /= 100;
+  l /= 100;
+
+  let c = (1 - Math.abs(2 * l - 1)) * s,
+      x = c * (1 - Math.abs((h / 60) % 2 - 1)),
+      m = l - c/2,
+      r = 0,
+      g = 0,
+      b = 0;
+
+  if (0 <= h && h < 60) {
+    r = c; g = x; b = 0;  
+  } else if (60 <= h && h < 120) {
+    r = x; g = c; b = 0;
+  } else if (120 <= h && h < 180) {
+    r = 0; g = c; b = x;
+  } else if (180 <= h && h < 240) {
+    r = 0; g = x; b = c;
+  } else if (240 <= h && h < 300) {
+    r = x; g = 0; b = c;
+  } else if (300 <= h && h < 360) {
+    r = c; g = 0; b = x;
+  }
+
+  r = Math.round((r + m) * 255);
+  g = Math.round((g + m) * 255);
+  b = Math.round((b + m) * 255);
+
+  if(returnValue) {
+    return {r, g, b};
+  }else {
+    return "rgb(" + r + ", " + g + ", " + b + ")";
+  }
+}
+
+const stringToHSLA = (hsla) => {
+  let sep = hsla.indexOf(",") > -1 ? "," : " ";
+  hsla = hsla.substr(5).split(")")[0].split(sep);
+
+  if (hsla.indexOf("/") > -1)
+    hsla.splice(3,1);
+
+  let h = hsla[0],
+      s = hsla[1].substr(0,hsla[1].length - 1),
+      l = hsla[2].substr(0,hsla[2].length - 1),
+      a = hsla[3];
+        
+  if (h.indexOf("deg") > -1)
+    h = h.substr(0,h.length - 3);
+  else if (h.indexOf("rad") > -1)
+    h = Math.round(h.substr(0,h.length - 3) * (180 / Math.PI));
+  else if (h.indexOf("turn") > -1)
+    h = Math.round(h.substr(0,h.length - 4) * 360);
+  if (h >= 360)
+    h %= 360;
+
+  return {hue: h, saturation: s, lightness: l, alpha: a};
+}
+
+const HSLAToRGBA = (h,s,l,a) => {
+  const rgbObj = HSLToRGB(h, s, l, true);
+  const { r, g, b } = rgbObj;
+  return "rgba(" + r + ", " + g + ", " + b + "," + a + ")";
+}
+
+export { hexToHSL, hexAToHSLA, stringToRGBA, stringToRGB, RGBToHSL, rgbaToHSLA, hexToRGB, hexAToRGBA, stringToHSL, HSLToRGB, stringToHSLA, HSLAToRGBA };

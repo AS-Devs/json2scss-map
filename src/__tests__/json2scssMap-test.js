@@ -1,6 +1,6 @@
 'use strict';
 
-import { expect } from 'chai';
+import { expect,  } from 'chai';
 import json2scssMap from '../json2scssMap';
 
 function Foo() {
@@ -22,12 +22,30 @@ describe('JSON to SCSS Map', function() {
   });
   
   it('new Convertion to - HSL(A)', function() {
-    expect(json2scssMap('#232')).to.equal('hsl(120,20%,16.7%)');
-    expect(json2scssMap('#22ffff')).to.equal('hsl(180,100%,56.7%)');
-    expect(json2scssMap('#D9FFFFD1')).to.equal('hsla(180,100%,92.5%,0.82)');
-    expect(json2scssMap('rgba(255,34,21,.6)')).to.equal('hsla(3,100%,54.1%,.6)');
-    expect(json2scssMap('rgb(255,34,21)')).to.equal('hsl(3,100%,54.1%)');
-    expect(json2scssMap('hsla(149, 100%, 37%, 0.89)')).to.equal('hsla(149, 100%, 37%, 0.89)');
+    let option = {
+      colorConvertion: true,
+      convertTo: 'hsl'
+    }
+    expect(json2scssMap('#232', option)).to.equal('hsl(120,20%,16.7%)');
+    expect(json2scssMap('#22ffff', option)).to.equal('hsl(180,100%,56.7%)');
+    expect(json2scssMap('#D9FFFFD1', option)).to.equal('hsla(180,100%,92.5%,0.82)');
+    expect(json2scssMap('rgba(255,34,21,.6)', option)).to.equal('hsla(3,100%,54.1%,.6)');
+    expect(json2scssMap('rgb(255,34,21)', option)).to.equal('hsl(3,100%,54.1%)');
+    expect(json2scssMap('hsla(149, 100%, 37%, 0.89)', option)).to.equal('hsla(149, 100%, 37%, 0.89)');
+  });
+
+  it('new Convertion to - RGB(A)', function() {
+    let option = {
+      colorConvertion: true,
+      convertTo: 'rgb'
+    }
+    expect(json2scssMap('#232', option)).to.equal('rgb(34, 51, 34)');
+    expect(json2scssMap('#22ffff', option)).to.equal('rgb(34, 255, 255)');
+    expect(json2scssMap('#D9FFFFD1', option)).to.equal('rgba(217, 255, 255, 0.82)');
+    expect(json2scssMap('hsl(255,34%,21%)', option)).to.equal('rgb(44, 35, 72)');
+    expect(json2scssMap('hsla(149, 100%, 37%, 0.89)', option)).to.equal('rgba(0, 189, 91, 0.89)');
+    expect(json2scssMap('rgb(255,34,21)', option)).to.equal('rgb(255,34,21)');
+    expect(json2scssMap('rgba(255,34,21, 0.2)', option)).to.equal('rgba(255,34,21, 0.2)');
   });
 
   it('should handle booleans', function() {

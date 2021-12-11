@@ -1,11 +1,13 @@
 'use strict';
 
 import { isPlainObject, isUndefined, isNull, isArray } from 'lodash';
-import { hexAToHSLA, hexToHSL, RGBToHSL, rgbaToHSLA, stringToRGBA, stringToRGB } from './ColorConvertion';
+import { hexAToHSLA, hexToHSL, RGBToHSL, rgbaToHSLA, 
+  stringToRGBA, stringToRGB, hexToRGB, hexAToRGBA, 
+  stringToHSL, HSLToRGB, stringToHSLA, HSLAToRGBA } from "./ColorConvertion";
 
 let DEFAULTOPTION = {
   colorConvertion: true,
-  convertTo: 'hsl'
+  convertTo: 'rgb'
 }
 
 const json2scssMap = (value, options = DEFAULTOPTION) => {
@@ -43,7 +45,7 @@ const json2scssMap = (value, options = DEFAULTOPTION) => {
         }
         else if (isArray(value)) {
           let sassVals = value.map(v => {
-              if(!isUndefined(v)) return _json2scssMap(v, indentLevel, colorConvertion, convertTo)
+              if(!isUndefined(v)) return _json2scssMap(v, indentLevel, colorConvertion, convertTo);
             })
           if (sassVals.length > 1)
             sassVals = sassVals.join(', ');
@@ -62,7 +64,7 @@ const json2scssMap = (value, options = DEFAULTOPTION) => {
 }
 
 const indentsToSpaces = (indentCount) =>  Array(indentCount + 1).join('  ');
-const quoteString = (value) => {
+const quoteString = (value, colorConvertion, convertTo) => {
   const regx = /^[\d.]*\d(px|rem|em|%|vw|vh|ch)$/g;
   const regexColor = /(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))/ig;
   if (regx.test(value)) {
@@ -73,6 +75,8 @@ const quoteString = (value) => {
     const isHexAColor = /^#([a-f0-9]{8}|[a-f0-9]{4})\b$/gi;
     const isRGBColor = /(^rgb\((\d+),\s*(\d+),\s*(\d+)\)$)/gi;
     const isRGBAColor = /rgba\(\s*(25[0-5]|2[0-4]\d|1\d{1,2}|\d\d?)\s*,\s*(25[0-5]|2[0-4]\d|1\d{1,2}|\d\d?)\s*,\s*(25[0-5]|2[0-4]\d|1\d{1,2}|\d\d?)\s*,\s*([01\.]\.?\d?)?\s*\)/gi;
+    const isHSLColor = /^hsl\(\s*(\d+)\s*,\s*(\d*(?:\.\d+)?%)\s*,\s*(\d*(?:\.\d+)?%)\)$/gi;
+    const isHSLAColor = /^hsla\((\d+),\s*([\d.]+)%,\s*([\d.]+)%,\s*(\d*(?:\.\d+)?)\)$/gi;
     // if convertion is true && to HSL
     if(colorConvertion && (convertTo === 'hsl' || convertTo === 'HSL' || convertTo === 'hsla' || convertTo === 'HSLA')) {
       if(isHexColor.test(value)) return hexToHSL(value);
@@ -89,6 +93,22 @@ const quoteString = (value) => {
       }
       return value;
     }
+    if(colorConvertion && (convertTo === 'rgb' || convertTo === 'RGB' || convertTo === 'rgba' || convertTo === 'RGBA')) {
+      if(isHexColor.test(value)) return hexToRGB(value);
+      if(isHexAColor.test(value)) return hexAToRGBA(value);
+      if(isHSLColor.test(value)) {
+        let colorObject = {};
+        colorObject = stringToHSL(value);
+        return HSLToRGB(colorObject.hue, colorObject.saturation, colorObject.lightness);
+      }
+      if(isHSLAColor.test(value)) {
+        let colorObject = {};
+        colorObject = stringToHSLA(value);
+        return HSLAToRGBA(colorObject.hue, colorObject.saturation, colorObject.lightness, colorObject.alpha);
+      }
+      return value;
+    }
+
     return value;
   }
   return "\"" + value + "\"";
