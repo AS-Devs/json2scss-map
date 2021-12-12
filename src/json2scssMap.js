@@ -3,11 +3,11 @@
 import { isPlainObject, isUndefined, isNull, isArray } from 'lodash';
 import { hexAToHSLA, hexToHSL, RGBToHSL, rgbaToHSLA, 
   stringToRGBA, stringToRGB, hexToRGB, hexAToRGBA, 
-  stringToHSL, HSLToRGB, stringToHSLA, HSLAToRGBA } from "./ColorConvertion";
+  stringToHSL, HSLToRGB, stringToHSLA, HSLAToRGBA, rgbToHEX, rgbaToHEXA, HSLToHEX, HSLAToHEXA } from "./ColorConvertion";
 
 let DEFAULTOPTION = {
   colorConvertion: true,
-  convertTo: 'rgb'
+  convertTo: 'hsl'
 }
 
 const json2scssMap = (value, options = DEFAULTOPTION) => {
@@ -106,6 +106,13 @@ const quoteString = (value, colorConvertion, convertTo) => {
         colorObject = stringToHSLA(value);
         return HSLAToRGBA(colorObject.hue, colorObject.saturation, colorObject.lightness, colorObject.alpha);
       }
+      return value;
+    }
+    if(colorConvertion && (convertTo === 'hex' || convertTo === 'HEX' || convertTo === 'hexa' || convertTo === 'HEXA')) {
+      if(isRGBColor.test(value)) return rgbToHEX(value);
+      if(isRGBAColor.test(value)) return rgbaToHEXA(value);
+      if(isHSLColor.test(value)) return HSLToHEX(value);
+      if(isHSLAColor.test(value)) return HSLAToHEXA(value);
       return value;
     }
 

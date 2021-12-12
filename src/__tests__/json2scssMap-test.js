@@ -48,6 +48,20 @@ describe('JSON to SCSS Map', function() {
     expect(json2scssMap('rgba(255,34,21, 0.2)', option)).to.equal('rgba(255,34,21, 0.2)');
   });
 
+  it('new Convertion to - HEX(A)', function() {
+    let option = {
+      colorConvertion: true,
+      convertTo: 'hex'
+    }
+    expect(json2scssMap('#232', option)).to.equal('#232');
+    expect(json2scssMap('#22ffff', option)).to.equal('#22ffff');
+    expect(json2scssMap('#D9FFFFD1', option)).to.equal('#D9FFFFD1');
+    expect(json2scssMap('hsl(255,34%,21%)', option)).to.equal('#2c2348');
+    expect(json2scssMap('hsla(149, 100%, 37%, 0.89)', option)).to.equal('#00bd5be3');
+    expect(json2scssMap('rgb(255,34,21)', option)).to.equal('#ff2215');
+    expect(json2scssMap('rgba(255,34,21, 0.2)', option)).to.equal('#ff221533');
+  });
+
   it('should handle booleans', function() {
     expect(json2scssMap(true)).to.equal('true');
     expect(json2scssMap(false)).to.equal('false');

@@ -11,7 +11,7 @@ npm i --save-dev json2scss-map
 ## Why?
 
 Firstly, you can share values between your scripts and stylesheets without having to use something like [SassyJSON](https://github.com/HugoGiraudel/SassyJSON), which doesn't work with libsass.
-This package it's not build from Scratch by me. But Thanks to [Andrew Clark](https://github.com/acdlite) .
+This package it's not build from Scratch, we have fork the project from [Andrew Clark](https://github.com/acdlite) .
 But jsonSass package isn't maintained from last 5+ years. As we use this package with all the vernabilities , we thought we would fix the issues and make it better.
 
 ## Examples
@@ -81,20 +81,21 @@ You can also transform normal JavaScript values using the exposed utility functi
 ```javascript
 json2scss.convertJs([1, 2, 3]); // (1, 2, 3)
 ```
-## Added Feature on v1.4.0
-
- 1. scss map supports key as string so, now map keys will be in string. 
- 2. font sizes like rem, px, em and colors in hex value will return without string quote; which will help you to get the desire value from scss map.
-
-## Added Feature on v1.4.1
- 1. Added support for ch unit as value .
- 2. Also , Now you can use any color format you are not strict to use hex only . Use rgba, hsl, rgb etc.
 
 ## Minor Update on v1.4.2
  1. Improvement / Fix Regarding compiling Nested Array of Objects.
  2. Updated the unexpectedly remove Quotes from the strings.
 
 Thanks to the [Dylan Awalt-Conley](https://github.com/dawaltconley) for your PR.
+
+## Added Feature on v1.4.1
+ 1. Added support for ch unit as value .
+ 2. Also , Now you can use any color format you are not strict to use hex only . Use rgba, hsl, rgb etc.
+## Added Feature on v1.4.0
+
+ 1. scss map supports key as string so, now map keys will be in string. 
+ 2. font sizes like rem, px, em and colors in hex value will return without string quote; which will help you to get the desire value from scss map.
+
 
 
 ## ISSUE
@@ -114,6 +115,20 @@ Returns a through stream. Available options:
 ### `json2scss.convertJs(jsValue)`
 
 Convert a normal JavaScript value to its string representation in Sass. Ignores `undefined` and functions. Calls `.toString()` on non-plain object instances.
+
+
+### :heart: Found this project useful?
+
+If you found this project useful, then please consider giving it a :star: on Github and sharing it with your friends via social media.
+
+# Donate
+
+> If you found this project helpful or you learned something from the source code and want to thank me, consider buying me a cup of :tea:
+>
+> - [PayPal](https://www.paypal.com/paypalme/SusantaChak/)
+> - [ButmeaCoffee](https://www.buymeacoffee.com/susanta96/)
+
+
 
 ## License
 ISC
