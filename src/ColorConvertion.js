@@ -1,6 +1,6 @@
 'use strict';
 
-const hexToHSL = (H) => {
+const hexToHSL = (H, newSyntax = false) => {
   // Convert hex to RGB first
   let r = 0, g = 0, b = 0;
   if (H.length == 4) {
@@ -41,11 +41,16 @@ const hexToHSL = (H) => {
   s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
   s = +(s * 100).toFixed(1);
   l = +(l * 100).toFixed(1);
+  
+  if(newSyntax) {
+    return `hsl(${h} ${s}% ${l}%)`;
+  }else {
+    return "hsl(" + h + "," + s + "%," + l + "%)";
+  }
 
-  return "hsl(" + h + "," + s + "%," + l + "%)";
 }
 
-const hexAToHSLA = (H) => {
+const hexAToHSLA = (H, newSyntax = false) => {
   let r = 0, g = 0, b = 0, a = 1;
 
   if (H.length == 5) {
@@ -92,7 +97,10 @@ const hexAToHSLA = (H) => {
 
 
   a = (a / 255).toFixed(2);
-                
+           
+  if(newSyntax){
+    return "hsl("+ h + " " + s + "% " + l + "% / " + (a * 100) + "%)";
+  }
   return "hsla("+ h + "," + s + "%," + l + "%," + a + ")";
 
 }
@@ -152,7 +160,7 @@ const stringToRGB = (rgb) => {
   return {red: r, green: g, blue: b};
 }
 
-const RGBToHSL = (r,g,b) => {
+const RGBToHSL = (r,g,b, newSyntax = false) => {
   // Make r, g, and b fractions of 1
   r /= 255;
   g /= 255;
@@ -194,11 +202,15 @@ const RGBToHSL = (r,g,b) => {
   // Multiply l and s by 100
   s = +(s * 100).toFixed(1);
   l = +(l * 100).toFixed(1);
+
+  if(newSyntax){
+    return "hsl("+ h + " " + s + "% " + l + "%)";
+  }
 
   return "hsl(" + h + "," + s + "%," + l + "%)";
 }
 
-const rgbaToHSLA = (r,g,b,a) => {
+const rgbaToHSLA = (r,g,b,a, newSyntax = false) => {
   // Make r, g, and b fractions of 1
   r /= 255;
   g /= 255;
@@ -241,10 +253,42 @@ const rgbaToHSLA = (r,g,b,a) => {
   s = +(s * 100).toFixed(1);
   l = +(l * 100).toFixed(1);
 
+  if(newSyntax){
+    return "hsl("+ h + " " + s + "% " + l + "% / " + (a * 100) + "%)";
+  }
+
   return "hsla(" + h + "," + s + "%," + l + "%," + a + ")";
 }
 
-const hexToRGB = (h) => {
+const HSLToCL4HSL = (h, s, l, newSyntax = false) => {
+  if(newSyntax){
+    return "hsl("+ h + " " + s + "% " + l + "%)";
+  }
+  return "hsl("+ h + ", " + s + "%, " + l + "%)";
+}
+
+const HSLAToCL4HSL = (h, s, l, a, newSyntax = false) => {
+  if(newSyntax){
+    return "hsl("+ h + " " + s + "% " + l + "% / " + (a * 100) + "%)";
+  }
+  return "hsla("+ h + ", " + s + "%, " + l + "%, " + a + ")";
+}
+
+const RGBtoCL4RGB = (r, g, b, newSyntax = false) => {
+  if(newSyntax) {
+    return "rgb("+ r + " " + g + " " + b + ")";
+  }
+  return "rgb("+ r + ", " + g + ", " + b + ")";
+}
+
+const RGBAtoCL4RGB = (r, g, b, a, newSyntax = false) => {
+  if(newSyntax) {
+    return "rgb("+ r + " " + g + " " + b + " / " + (a * 100) + "%)";
+  }
+  return "rgba(" + r + ", " + g + ", " + b + ", " + a + ")";
+}
+
+const hexToRGB = (h, newSyntax = false) => {
   let r = 0, g = 0, b = 0;
 
   // 3 digits
@@ -259,11 +303,13 @@ const hexToRGB = (h) => {
     g = "0x" + h[3] + h[4];
     b = "0x" + h[5] + h[6];
   }
-  
+  if(newSyntax) {
+    return "rgb("+ +r + " " + +g + " " + +b + ")";
+  }
   return "rgb("+ +r + ", " + +g + ", " + +b + ")";
 }
 
-const hexAToRGBA = (h) => {
+const hexAToRGBA = (h, newSyntax = false) => {
   let r = 0, g = 0, b = 0, a = 1;
 
   if (h.length == 5) {
@@ -279,6 +325,10 @@ const hexAToRGBA = (h) => {
     a = "0x" + h[7] + h[8];
   }
   a = +(a / 255).toFixed(2);
+
+  if(newSyntax) {
+    return "rgb("+ +r + " " + +g + " " + +b + " / " + (a * 100) + "%)";
+  }
 
   return "rgba(" + +r + ", " + +g + ", " + +b + ", " + a + ")";
 }
@@ -305,7 +355,7 @@ const stringToHSL = (hsl) => {
   return {hue: h, saturation: s, lightness: l};
 }
 
-const HSLToRGB = (h,s,l, returnValue = false) => {
+const HSLToRGB = (h,s,l, returnValue = false, newSyntax = false) => {
   // Must be fractions of 1
   s /= 100;
   l /= 100;
@@ -338,6 +388,9 @@ const HSLToRGB = (h,s,l, returnValue = false) => {
   if(returnValue) {
     return {r, g, b};
   }else {
+    if(newSyntax) {
+      return "rgb("+ r + " " + g + " " + b + ")";
+    }
     return "rgb(" + r + ", " + g + ", " + b + ")";
   }
 }
@@ -366,10 +419,13 @@ const stringToHSLA = (hsla) => {
   return {hue: h, saturation: s, lightness: l, alpha: a};
 }
 
-const HSLAToRGBA = (h,s,l,a) => {
+const HSLAToRGBA = (h,s,l,a, newSyntax = false) => {
   const rgbObj = HSLToRGB(h, s, l, true);
   const { r, g, b } = rgbObj;
-  return "rgba(" + r + ", " + g + ", " + b + "," + a + ")";
+  if(newSyntax) {
+    return "rgb("+ r + " " + g + " " + b + " / " + (a * 100) + "%)";
+  }
+  return "rgba(" + r + ", " + g + ", " + b + ", " + a + ")";
 }
 
 const rgbToHEX = (rgb) => {
@@ -547,4 +603,4 @@ const HSLAToHEXA = (hsla) => {
   return "#" + r + g + b + a;
 }
 
-export { hexToHSL, hexAToHSLA, stringToRGBA, stringToRGB, RGBToHSL, rgbaToHSLA, hexToRGB, hexAToRGBA, stringToHSL, HSLToRGB, stringToHSLA, HSLAToRGBA, rgbToHEX, rgbaToHEXA, HSLToHEX, HSLAToHEXA };
+export { hexToHSL, hexAToHSLA, stringToRGBA, stringToRGB, RGBToHSL, rgbaToHSLA, hexToRGB, hexAToRGBA, stringToHSL, HSLToRGB, stringToHSLA, HSLAToRGBA, rgbToHEX, rgbaToHEXA, HSLToHEX, HSLAToHEXA, HSLToCL4HSL, HSLAToCL4HSL, RGBtoCL4RGB, RGBAtoCL4RGB };

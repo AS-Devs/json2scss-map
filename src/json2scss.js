@@ -7,7 +7,8 @@ let DEFAULTS = {
   prefix: '',
   suffix: ';',
   colorConvertion: true,
-  convertTo: 'hsl'
+  convertTo: 'hsl',
+  cl4Syntax: false
 };
 
 function json2scss(options) {
