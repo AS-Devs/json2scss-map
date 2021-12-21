@@ -12,7 +12,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/AS-Devs/json2scss-map">
-    <img src="image/JSON2SCSS.png" alt="Logo" width="370" height="auto">
+    <img src="images/JSON2SCSS.png" alt="Logo" width="370" height="auto">
   </a>
 
   <h3 align="center">Json2scss-Map</h3>
@@ -260,7 +260,7 @@ ISC
 [issues-shield]: https://img.shields.io/github/issues/AS-Devs/json2scss-map?style=for-the-badge
 [issues-url]: https://github.com/AS-Devs/json2scss-map/issues
 [license-shield]: https://img.shields.io/github/license/AS-Devs/json2scss-map?style=for-the-badge
-[license-url]: https://github.com/AS-Devs/json2scss-map/blob//LICENSE
+[license-url]: https://github.com/AS-Devs/json2scss-map/blob/dev/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/susanta96/
-[product-screenshot]: image/poster.webp
+[product-screenshot]: images/poster.webp
