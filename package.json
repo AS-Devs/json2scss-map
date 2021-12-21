@@ -18,7 +18,7 @@
     "url": "https://github.com/AS-Devs/json2scss-map/issues"
   },
   "homepage": "https://github.com/AS-Devs/json2scss-map", 
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "lodash": "^4.17.21",
     "minimist": "^1.2.5",
