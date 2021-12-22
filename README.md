@@ -48,11 +48,13 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
+    <li><a href="#api">API</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#donate">Donate</a></li>
   </ol>
 </details>
 
@@ -62,7 +64,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://www.npmjs.com/package/json2scss-map)
 
-There are many lots of Json-sass package available on npm; however, I didn't find one that really suited my needs. So, I thought of creating one.
+There are lots of Json-sass package available on npm; however, I didn't find one that really suited my needs. So, I thought of creating one.
 Altough, i find one that's good enough & made by [Andrew Clark](https://github.com/acdlite). But that wasn't maintained from last 6+ years.
 
 This is an Utility module that converts a JSON stream into sass maps. It can be used as whitelabeling themes, fonts etc.
@@ -91,97 +93,45 @@ This is a very small package without any major dependency. However, we use some 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+It's very easy to use this plugin, instructions are mentioned below or you can <a href="https://codesandbox.io/s/json2scss-map-demo-phcsf?file=/theme/output.scss">View Demo.</a>
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+There no such basic requirements only `node.js` should be installed. also update `npm or yarn` if you can. Although, there are some issue in node 17.
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+_There are many ways to install this plugin mentioned below._
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+- using npm:
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   npm i -D json2scss-map
    ```
-3. Install NPM packages
+- using yarn:
    ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+   yarn add json2scss-map -D
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-# json2scss-map
-
-Utility module that converts a JSON stream into scss syntax sass-map
-
-json2scss-map converts JSON objects into Sass maps, which are supported in Ruby Sass 3.3 and libsass 2.0.
-
-```
-npm i --save-dev json2scss-map
-```
-
-## Why?
-
-Firstly, you can share values between your scripts and stylesheets without having to use something like [SassyJSON](https://github.com/HugoGiraudel/SassyJSON), which doesn't work with libsass.
-This package it's not build from Scratch, we have fork the project from [Andrew Clark](https://github.com/acdlite) .
-But jsonSass package isn't maintained from last 5+ years. As we use this package with all the vernabilities , we thought we would fix the issues and make it better.
-
-## Examples
+## Usage
 
 Example source file `theme.json`:
-```
-{
-  "font-primary": "Roboto",
-  "colors": {
-    "primary": "#0007bff",
-    "success": "#388E3C",
-    "error": "#EF5350",
-    "text-black": "#333333",
-    "black-overlay": "rgba(0, 0, 0, .2)"
-  },
-  "fonts": {
-    "txt-12": "11px",
-    "txt-75": "75ch"
-  },
-  "w-80": "80vw"
-}
 
+[![Input Json][input-theme]](https://www.npmjs.com/package/json2scss-map)
+
+From the command-line:
+
+```sh
+$ json2scss-map -i theme.json -o theme.scss -p "\$variable: "
 ```
 
-Output `theme.scss`:
+Output `theme.scss` with new color convertion to `hsl` by default:
 
-```scss
-$variable:(
-  "font-primary": "Roboto",
-  "colors": (
-    "primary": #007bff,
-    "success": #388E3C,
-    "error": #EF5350,
-    "text-black": #333333,
-    "black-overlay": rgba(0, 0, 0, .2)
-  ),
-  "fonts": (
-    "txt-12": 11px,
-    "txt-75": 75ch
-  ),
-  "w-80": 80vw
-);
-```
+[![Output Scss map][output-theme]](https://www.npmjs.com/package/json2scss-map)
 
-you can use the Node fs Module (recommended):
+Or you can use the Node API: (recommended)
 
 ``` javascript
 var fs = require('fs');
@@ -190,6 +140,7 @@ var json2scss = require('json2scss-map');
 fs.createReadStream('theme.json')
   .pipe(json2scss({
     prefix: '$variable: ',
+    cl4Syntax: true
   }))
   .pipe(fs.createWriteStream('theme.scss'));
 ```
@@ -197,8 +148,8 @@ fs.createReadStream('theme.json')
 Then, you can get the values from scss:map 
 
 ```scss
-  $color-primary: map-get(map-get($variable, "colors"), "primary"); // #007bff
-  $font-family: map-get($variable, "font-primary"); // "Roboto"
+  $color-primary: map-get(map-get($variable, "theme"), "primary"); // hsl(211, 100%, 50%)
+  $font-main: map-get($variable, "fs-main"); // "Mulish"
 ```
 
 You can also transform normal JavaScript values using the exposed utility function:
@@ -208,9 +159,10 @@ json2scss.convertJs([1, 2, 3]); // (1, 2, 3)
 ```
 
 
-## ISSUE
 
-Please let us know the issues on issues tab. We will happy to fix the update the package .
+_For more, please refer to the [View Demo](https://codesandbox.io/s/json2scss-map-demo-phcsf?file=/theme/output.scss)_
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 ## API
@@ -221,29 +173,83 @@ Returns a through stream. Available options:
 
 - `prefix`: Add some text to the beginning
 - `suffix`: Add some text to the end. Defaults to `';'`.
+- `colorConvertion`: New Feature to convert only colors value to different color scheme. Defaults to `true`. (from v1.5.0)
+- `convertTo`: Right now support convertion for `HSL, RGB, HEX` colors. Defaults to `hsl`.
+- `cl4Syntax`: color lavel 4 new syntax with space separator for the output. Defaults to `false`.
 
 ### `json2scss.convertJs(jsValue)`
 
 Convert a normal JavaScript value to its string representation in Sass. Ignores `undefined` and functions. Calls `.toString()` on non-plain object instances.
 
 
-### :heart: Found this project useful?
 
-If you found this project useful, then please consider giving it a :star: on Github and sharing it with your friends via social media.
+<!-- ROADMAP -->
+## Roadmap
 
-# Donate
+- [x] Add Changelog
+- [x] Add new Color label 4 syntax support
+- [x] Add Color Convertion to (hsl, rgb, hex)
+- [ ] Add support for Color Lavel 4 Syntax in input stream as well.
+- [ ] Add Support for LCH color scheme convertion.
+- [ ] Add Support for ` % ` value in RGB colors.
+- [ ] Add Support for `turn, deg, rad` etc unit support in hsl & rgb colors.
+
+See the [open issues](https://github.com/AS-Devs/json2scss-map/issues) for a full list of proposed features (and known issues).
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+<!-- CONTRIBUTING -->
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this plugin better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star ⭐️! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/{feature-name}`)
+3. Commit your Changes (`git commit -m 'Add some {feature}'`)
+4. Push to the Branch (`git push origin feature/{feature-name}`)
+5. Open a Pull Request
+6. You're awesome.
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- LICENSE -->
+## License
+Distributed under the MIT License. See `LICENSE` for more information.<br>
+[AS Developers](https://github.com/AS-Devs)
+
+
+
+<!-- CONTACT -->
+## Contact
+
+Susanta Chakraborty - [@susantaChak](https://twitter.com/susantaChak)
+
+Project Link: [https://github.com/AS-Devs/json2scss-map](https://github.com/AS-Devs/json2scss-map)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+<!-- ACKNOWLEDGMENTS -->
+## Acknowledgments
+
+There are lots of people to acknowledge. I've included few of them to help be build this plugin.
+
+* [Andrew Clark for previous plugin](https://github.com/acdlite/json-sass)
+* [CSS Tricks for lots of ideas](https://css-tricks.com/)
+* [Img Shields for writing readme](https://shields.io)
+
+## Donate
 
 > If you found this project helpful or you learned something from the source code and want to thank me, consider buying me a cup of :tea:
 >
 > - [PayPal](https://www.paypal.com/paypalme/SusantaChak/)
 > - [ButmeaCoffee](https://www.buymeacoffee.com/susanta96/)
 
-
-
-## License
-ISC
-
-[AS Developers](https://github.com/AS-Devs)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -264,3 +270,5 @@ ISC
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/susanta96/
 [product-screenshot]: images/poster.webp
+[input-theme]: images/input.png
+[output-theme]: images/output.png

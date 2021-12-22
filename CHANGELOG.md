@@ -14,6 +14,7 @@
 ### Drawbacks
 - RGB colors can also support % in there values. This version doesn't treat % in rgb value as rgb colors. So, we don't convert them.
 - HSL colors support `deg` unit. This version doesn't treat `deg, rad, turn` units as valid color. So, we don't convert them.
+- It doesn't support color convertion from a new space separated syntax as input.
 - We don't throw any error during the file read / write. It won't convert these colors if it doesn't understand any input as colors. But it will output these values without `quotes`.
 
 ## v1.4.2

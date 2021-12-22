@@ -45,7 +45,7 @@ const hexToHSL = (H, newSyntax = false) => {
   if(newSyntax) {
     return `hsl(${h} ${s}% ${l}%)`;
   }else {
-    return "hsl(" + h + "," + s + "%," + l + "%)";
+    return "hsl(" + h + ", " + s + "%, " + l + "%)";
   }
 
 }
@@ -101,7 +101,7 @@ const hexAToHSLA = (H, newSyntax = false) => {
   if(newSyntax){
     return "hsl("+ h + " " + s + "% " + l + "% / " + (a * 100) + "%)";
   }
-  return "hsla("+ h + "," + s + "%," + l + "%," + a + ")";
+  return "hsla("+ h + ", " + s + "%, " + l + "%, " + a + ")";
 
 }
 
@@ -207,7 +207,7 @@ const RGBToHSL = (r,g,b, newSyntax = false) => {
     return "hsl("+ h + " " + s + "% " + l + "%)";
   }
 
-  return "hsl(" + h + "," + s + "%," + l + "%)";
+  return "hsl(" + h + ", " + s + "%, " + l + "%)";
 }
 
 const rgbaToHSLA = (r,g,b,a, newSyntax = false) => {
@@ -257,7 +257,7 @@ const rgbaToHSLA = (r,g,b,a, newSyntax = false) => {
     return "hsl("+ h + " " + s + "% " + l + "% / " + (a * 100) + "%)";
   }
 
-  return "hsla(" + h + "," + s + "%," + l + "%," + a + ")";
+  return "hsla(" + h + ", " + s + "%, " + l + "%, " + a + ")";
 }
 
 const HSLToCL4HSL = (h, s, l, newSyntax = false) => {

@@ -27,11 +27,11 @@ describe('JSON to SCSS Map', function() {
       convertTo: 'hsl',
       cl4Syntax: false
     }
-    expect(json2scssMap('#232', option)).to.equal('hsl(120,20%,16.7%)');
-    expect(json2scssMap('#22ffff', option)).to.equal('hsl(180,100%,56.7%)');
-    expect(json2scssMap('#D9FFFFD1', option)).to.equal('hsla(180,100%,92.5%,0.82)');
-    expect(json2scssMap('rgba(255,34,21,.6)', option)).to.equal('hsla(3,100%,54.1%,.6)');
-    expect(json2scssMap('rgb(255,34,21)', option)).to.equal('hsl(3,100%,54.1%)');
+    expect(json2scssMap('#232', option)).to.equal('hsl(120, 20%, 16.7%)');
+    expect(json2scssMap('#22ffff', option)).to.equal('hsl(180, 100%, 56.7%)');
+    expect(json2scssMap('#D9FFFFD1', option)).to.equal('hsla(180, 100%, 92.5%, 0.82)');
+    expect(json2scssMap('rgba(255,34,21,.6)', option)).to.equal('hsla(3, 100%, 54.1%, .6)');
+    expect(json2scssMap('rgb(255,34,21)', option)).to.equal('hsl(3, 100%, 54.1%)');
     expect(json2scssMap('hsla(149, 100%, 37%, 0.89)', option)).to.equal('hsla(149, 100%, 37%, 0.89)');
   });
 
