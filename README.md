@@ -22,6 +22,8 @@
       <img src="https://img.shields.io/badge/-NEW-orange" alt="new-badge" height="16">
     <br />
     <br />
+    <a href="https://github.com/AS-Devs/json2scss-map/blob/dev/CHANGELOG.md">View Changelog</a>
+    ·
     <a href="https://codesandbox.io/s/json2scss-map-demo-phcsf?file=/theme/output.scss">View Demo</a>
     ·
     <a href="https://github.com/AS-Devs/json2scss-map/issues">Report Bug</a>
