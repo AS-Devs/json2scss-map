@@ -1,6 +1,6 @@
 'use strict';
 
-import { expect } from 'chai';
+import { expect,  } from 'chai';
 import json2scssMap from '../json2scssMap';
 
 function Foo() {
@@ -19,8 +19,79 @@ describe('JSON to SCSS Map', function() {
     expect(json2scssMap('12px')).to.equal('12px');
     expect(json2scssMap('14ch')).to.equal('14ch');
     expect(json2scssMap('2.4rem')).to.equal('2.4rem');
-    expect(json2scssMap('#232323')).to.equal('#232323');
-    expect(json2scssMap('rgba(255,34,21, .6)')).to.equal('rgba(255,34,21, .6)');
+  });
+  
+  it('Convertion to - HSL(A)', function() {
+    let option = {
+      colorConvertion: true,
+      convertTo: 'hsl',
+      cl4Syntax: false
+    }
+    expect(json2scssMap('#232', option)).to.equal('hsl(120, 20%, 16.7%)');
+    expect(json2scssMap('#22ffff', option)).to.equal('hsl(180, 100%, 56.7%)');
+    expect(json2scssMap('#D9FFFFD1', option)).to.equal('hsla(180, 100%, 92.5%, 0.82)');
+    expect(json2scssMap('rgba(255,34,21,.6)', option)).to.equal('hsla(3, 100%, 54.1%, .6)');
+    expect(json2scssMap('rgb(255,34,21)', option)).to.equal('hsl(3, 100%, 54.1%)');
+    expect(json2scssMap('hsla(149, 100%, 37%, 0.89)', option)).to.equal('hsla(149, 100%, 37%, 0.89)');
+  });
+
+  it('Convertion to - HSL(A) - CL4Syntax', function() {
+    let option = {
+      colorConvertion: true,
+      convertTo: 'hsl',
+      cl4Syntax: true
+    }
+    expect(json2scssMap('#232', option)).to.equal('hsl(120 20% 16.7%)');
+    expect(json2scssMap('#22ffff', option)).to.equal('hsl(180 100% 56.7%)');
+    expect(json2scssMap('#D9FFFFD1', option)).to.equal('hsl(180 100% 92.5% / 82%)');
+    expect(json2scssMap('rgba(255,34,21,.6)', option)).to.equal('hsl(3 100% 54.1% / 60%)');
+    expect(json2scssMap('rgb(255,34,21)', option)).to.equal('hsl(3 100% 54.1%)');
+    expect(json2scssMap('hsl(255,34%,21%)', option)).to.equal('hsl(255 34% 21%)');
+    expect(json2scssMap('hsla(149, 100%, 37%, 0.89)', option)).to.equal('hsl(149 100% 37% / 89%)');
+  });
+
+  it('new Convertion to - RGB(A)', function() {
+    let option = {
+      colorConvertion: true,
+      convertTo: 'rgb',
+      cl4Syntax: false
+    }
+    expect(json2scssMap('#232', option)).to.equal('rgb(34, 51, 34)');
+    expect(json2scssMap('#22ffff', option)).to.equal('rgb(34, 255, 255)');
+    expect(json2scssMap('#D9FFFFD1', option)).to.equal('rgba(217, 255, 255, 0.82)');
+    expect(json2scssMap('hsl(255,34%,21%)', option)).to.equal('rgb(44, 35, 72)');
+    expect(json2scssMap('hsla(149, 100%, 37%, 0.89)', option)).to.equal('rgba(0, 189, 91, 0.89)');
+    expect(json2scssMap('rgb(255,34,21)', option)).to.equal('rgb(255, 34, 21)');
+    expect(json2scssMap('rgba(255,34,21, 0.2)', option)).to.equal('rgba(255, 34, 21, 0.2)');
+  });
+
+  it('Convertion to - RGB(A) - CL4Syntax', function() {
+    let option = {
+      colorConvertion: true,
+      convertTo: 'rgb',
+      cl4Syntax: true
+    }
+    expect(json2scssMap('#232', option)).to.equal('rgb(34 51 34)');
+    expect(json2scssMap('#22ffff', option)).to.equal('rgb(34 255 255)');
+    expect(json2scssMap('#D9FFFFD1', option)).to.equal('rgb(217 255 255 / 82%)');
+    expect(json2scssMap('hsl(255,34%,21%)', option)).to.equal('rgb(44 35 72)');
+    expect(json2scssMap('hsla(149, 100%, 37%, 0.89)', option)).to.equal('rgb(0 189 91 / 89%)');
+    expect(json2scssMap('rgb(255,34,21)', option)).to.equal('rgb(255 34 21)');
+    expect(json2scssMap('rgba(255,34,21, 0.2)', option)).to.equal('rgb(255 34 21 / 20%)');
+  });
+
+  it('new Convertion to - HEX(A)', function() {
+    let option = {
+      colorConvertion: true,
+      convertTo: 'hex'
+    }
+    expect(json2scssMap('#232', option)).to.equal('#232');
+    expect(json2scssMap('#22ffff', option)).to.equal('#22ffff');
+    expect(json2scssMap('#D9FFFFD1', option)).to.equal('#D9FFFFD1');
+    expect(json2scssMap('hsl(255,34%,21%)', option)).to.equal('#2c2348');
+    expect(json2scssMap('hsla(149, 100%, 37%, 0.89)', option)).to.equal('#00bd5be3');
+    expect(json2scssMap('rgb(255,34,21)', option)).to.equal('#ff2215');
+    expect(json2scssMap('rgba(255,34,21, 0.2)', option)).to.equal('#ff221533');
   });
 
   it('should handle booleans', function() {

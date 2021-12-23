@@ -6,13 +6,16 @@ import through2 from 'through2';
 let DEFAULTS = {
   prefix: '',
   suffix: ';',
+  colorConvertion: true,
+  convertTo: 'hsl',
+  cl4Syntax: false
 };
 
 function json2scss(options) {
   let optionsGen = Object.assign({}, DEFAULTS, options);
   return through2(function(chunk, enc, callback) {
     let jsValue = JSON.parse(chunk);
-    let sassString = json2scssMap(jsValue);
+    let sassString = json2scssMap(jsValue, optionsGen);
     sassString = optionsGen.prefix + sassString + optionsGen.suffix;
     this.push(sassString);
     callback();
