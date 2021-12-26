@@ -23,7 +23,7 @@ describe('JSON to SCSS Map', function() {
   
   it('Convertion to - HSL(A)', function() {
     let option = {
-      colorConvertion: true,
+      colorConversion: true,
       convertTo: 'hsl',
       cl4Syntax: false
     }
@@ -37,7 +37,7 @@ describe('JSON to SCSS Map', function() {
 
   it('Convertion to - HSL(A) - CL4Syntax', function() {
     let option = {
-      colorConvertion: true,
+      colorConversion: true,
       convertTo: 'hsl',
       cl4Syntax: true
     }
@@ -52,7 +52,7 @@ describe('JSON to SCSS Map', function() {
 
   it('new Convertion to - RGB(A)', function() {
     let option = {
-      colorConvertion: true,
+      colorConversion: true,
       convertTo: 'rgb',
       cl4Syntax: false
     }
@@ -67,7 +67,7 @@ describe('JSON to SCSS Map', function() {
 
   it('Convertion to - RGB(A) - CL4Syntax', function() {
     let option = {
-      colorConvertion: true,
+      colorConversion: true,
       convertTo: 'rgb',
       cl4Syntax: true
     }
@@ -82,7 +82,7 @@ describe('JSON to SCSS Map', function() {
 
   it('new Convertion to - HEX(A)', function() {
     let option = {
-      colorConvertion: true,
+      colorConversion: true,
       convertTo: 'hex'
     }
     expect(json2scssMap('#232', option)).to.equal('#232');

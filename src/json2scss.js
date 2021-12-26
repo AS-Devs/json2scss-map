@@ -6,7 +6,7 @@ import through2 from 'through2';
 let DEFAULTS = {
   prefix: '',
   suffix: ';',
-  colorConvertion: true,
+  colorConversion: true,
   convertTo: 'hsl',
   cl4Syntax: false
 };

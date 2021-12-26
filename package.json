@@ -8,7 +8,7 @@
     "test": "make test",
     "prepare": "npm test"
   },
-  "keywords": ["sass", "JSON","scss","next","dart-scss","colors", "HEX", "HSL", "RGB"],
+  "keywords": ["sass", "JSON","scss","next","dart-scss","colors", "HEX", "HSL", "RGB", "Color Lavel 4"],
   "author": "AS Developers",
   "repository": {
     "type": "git",

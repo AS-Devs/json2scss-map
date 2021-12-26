@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * Convert any 3 or 6 digit HEX color into HSL
+ * @author AS Developers 2021 MIT License
+ * @params H:<String>, newSyntax:<boolean>
+ * @returns HSL Color (String)
+ */
 const hexToHSL = (H, newSyntax = false) => {
   // Convert hex to RGB first
   let r = 0, g = 0, b = 0;
@@ -50,6 +56,12 @@ const hexToHSL = (H, newSyntax = false) => {
 
 }
 
+/**
+ * Convert any 4 or 8 digit HEX alpha color into HSLA
+ * @author AS Developers 2021 MIT License
+ * @params H:<String>, newSyntax:<boolean>
+ * @returns HSLA Color:<String>
+ */
 const hexAToHSLA = (H, newSyntax = false) => {
   let r = 0, g = 0, b = 0, a = 1;
 
@@ -105,6 +117,12 @@ const hexAToHSLA = (H, newSyntax = false) => {
 
 }
 
+/**
+ * Convert rgba string into R: red,G:<green>,B:<blue> colors
+ * @author AS Developers 2021 MIT License
+ * @params rgba as string
+ * @returns red, green, blue and alpha value as numbers
+ */
 const stringToRGBA = (rgba) => {
   let sep = rgba.indexOf(",") > -1 ? "," : " ";
   rgba = rgba.substr(5).split(")")[0].split(sep);
@@ -134,6 +152,13 @@ const stringToRGBA = (rgba) => {
   return {red: r, green: g, blue: b, alpha: a};
 }
 
+
+/**
+ * Convert rgb string into R: red,G:<green>,B:<blue> colors
+ * @author AS Developers 2021 MIT License
+ * @params rgb as string
+ * @returns red, green, blue value as numbers
+ */
 const stringToRGB = (rgb) => {
   let sep = rgb.indexOf(",") > -1 ? "," : " ";
   rgb = rgb.substr(4).split(")")[0].split(sep);
@@ -159,7 +184,12 @@ const stringToRGB = (rgb) => {
       b = rgb[2];
   return {red: r, green: g, blue: b};
 }
-
+/**
+ * Convert R,G,B into HSL colors also support New Syntax
+ * @author AS Developers 2021 MIT License
+ * @params red , green, blue value as numbers
+ * @returns HSL color String based on newSyntax param true / false
+ */
 const RGBToHSL = (r,g,b, newSyntax = false) => {
   // Make r, g, and b fractions of 1
   r /= 255;
@@ -209,7 +239,12 @@ const RGBToHSL = (r,g,b, newSyntax = false) => {
 
   return "hsl(" + h + ", " + s + "%, " + l + "%)";
 }
-
+/**
+ * Convert R,G,B,A into HSL colors also support New Syntax
+ * @author AS Developers 2021 MIT License
+ * @params red , green, blue and alpha value as numbers
+ * @returns HSL color String based on newSyntax param true / false
+ */
 const rgbaToHSLA = (r,g,b,a, newSyntax = false) => {
   // Make r, g, and b fractions of 1
   r /= 255;
@@ -259,28 +294,48 @@ const rgbaToHSLA = (r,g,b,a, newSyntax = false) => {
 
   return "hsla(" + h + ", " + s + "%, " + l + "%, " + a + ")";
 }
-
+/**
+ * Convert H(Hue), S(Saturation), L(Lightness) into Color Lavel 4 Syntax
+ * @author AS Developers 2021 MIT License
+ * @params h, s, l as numbers 
+ * @returns HSL color String based on newSyntax param true / false
+ */
 const HSLToCL4HSL = (h, s, l, newSyntax = false) => {
   if(newSyntax){
     return "hsl("+ h + " " + s + "% " + l + "%)";
   }
   return "hsl("+ h + ", " + s + "%, " + l + "%)";
 }
-
+/**
+ * Convert H(Hue), S(Saturation), L(Lightness),A (Alpha) into Color Lavel 4 Syntax
+ * @author AS Developers 2021 MIT License
+ * @params h, s, l, a as numbers 
+ * @returns HSL color String based on newSyntax param true / false
+ */
 const HSLAToCL4HSL = (h, s, l, a, newSyntax = false) => {
   if(newSyntax){
     return "hsl("+ h + " " + s + "% " + l + "% / " + (a * 100) + "%)";
   }
   return "hsla("+ h + ", " + s + "%, " + l + "%, " + a + ")";
 }
-
+/**
+ * Convert R(Red),G(Green),B(Blue) into Color Lavel 4 Syntax
+ * @author AS Developers 2021 MIT License
+ * @params r, g,b as numbers
+ * @returns RGB color String based on newSyntax param true / false
+ */
 const RGBtoCL4RGB = (r, g, b, newSyntax = false) => {
   if(newSyntax) {
     return "rgb("+ r + " " + g + " " + b + ")";
   }
   return "rgb("+ r + ", " + g + ", " + b + ")";
 }
-
+/**
+ * Convert R(Red),G(Green),B(Blue), A(Alpha) into Color Lavel 4 Syntax
+ * @author AS Developers 2021 MIT License
+ * @params r, g,b,a as numbers
+ * @returns RGBA color String based on newSyntax param true / false
+ */
 const RGBAtoCL4RGB = (r, g, b, a, newSyntax = false) => {
   if(newSyntax) {
     return "rgb("+ r + " " + g + " " + b + " / " + (a * 100) + "%)";
@@ -288,6 +343,12 @@ const RGBAtoCL4RGB = (r, g, b, a, newSyntax = false) => {
   return "rgba(" + r + ", " + g + ", " + b + ", " + a + ")";
 }
 
+/**
+ * Convert H(HEX) colors into RGB colors
+ * @author AS Developers 2021 MIT License
+ * @params Hex as string
+ * @returns RGB color String based on newSyntax param true / false
+ */
 const hexToRGB = (h, newSyntax = false) => {
   let r = 0, g = 0, b = 0;
 
@@ -308,7 +369,12 @@ const hexToRGB = (h, newSyntax = false) => {
   }
   return "rgb("+ +r + ", " + +g + ", " + +b + ")";
 }
-
+/**
+ * Convert H(HEXA) colors into RGBA colors
+ * @author AS Developers 2021 MIT License
+ * @params HexA as string
+ * @returns RGBA color String based on newSyntax param true / false
+ */
 const hexAToRGBA = (h, newSyntax = false) => {
   let r = 0, g = 0, b = 0, a = 1;
 
@@ -332,7 +398,12 @@ const hexAToRGBA = (h, newSyntax = false) => {
 
   return "rgba(" + +r + ", " + +g + ", " + +b + ", " + a + ")";
 }
-
+/**
+ * Convert HSL colors string into H(Hue), S(Saturation), L(Lightness)
+ * @author AS Developers 2021 MIT License
+ * @params Hsl color as string
+ * @returns H(Hue), S(Saturation), L(Lightness) as numbers
+ */
 const stringToHSL = (hsl) => {
   let sep = hsl.indexOf(",") > -1 ? "," : " ";
   hsl = hsl.substr(4).split(")")[0].split(sep);
@@ -354,7 +425,12 @@ const stringToHSL = (hsl) => {
 
   return {hue: h, saturation: s, lightness: l};
 }
-
+/**
+ * Convert H(Hue), S(Saturation), L(Lightness) colors RGB value also String output
+ * @author AS Developers 2021 MIT License
+ * @params H(Hue), S(Saturation), L(Lightness) as numbers, returnValue (true/false), newSyntax( true / false)
+ * @returns if return value true then output rgb as numbers for forther use otherwise output rgb color string
+ */
 const HSLToRGB = (h,s,l, returnValue = false, newSyntax = false) => {
   // Must be fractions of 1
   s /= 100;
@@ -394,7 +470,12 @@ const HSLToRGB = (h,s,l, returnValue = false, newSyntax = false) => {
     return "rgb(" + r + ", " + g + ", " + b + ")";
   }
 }
-
+/**
+ * Convert HSLA colors string into H(Hue), S(Saturation), L(Lightness), A(Alpha)
+ * @author AS Developers 2021 MIT License
+ * @params Hsla color as string
+ * @returns H(Hue), S(Saturation), L(Lightness), A(Alpha) as numbers
+ */
 const stringToHSLA = (hsla) => {
   let sep = hsla.indexOf(",") > -1 ? "," : " ";
   hsla = hsla.substr(5).split(")")[0].split(sep);
@@ -419,6 +500,12 @@ const stringToHSLA = (hsla) => {
   return {hue: h, saturation: s, lightness: l, alpha: a};
 }
 
+/**
+ * Convert H(Hue), S(Saturation), L(Lightness), A (Alpha) colors RGB value also String output
+ * @author AS Developers 2021 MIT License
+ * @params H(Hue), S(Saturation), L(Lightness) as numbers, newSyntax( true / false)
+ * @returns output rgb color string based on newSyntax 
+ */
 const HSLAToRGBA = (h,s,l,a, newSyntax = false) => {
   const rgbObj = HSLToRGB(h, s, l, true);
   const { r, g, b } = rgbObj;
@@ -428,6 +515,12 @@ const HSLAToRGBA = (h,s,l,a, newSyntax = false) => {
   return "rgba(" + r + ", " + g + ", " + b + ", " + a + ")";
 }
 
+/**
+ * Convert RGB colors string into HEX string
+ * @author AS Developers 2021 MIT License
+ * @params rgb as string
+ * @returns output HEX string
+ */
 const rgbToHEX = (rgb) => {
     // Choose correct separator
     let sep = rgb.indexOf(",") > -1 ? "," : " ";
@@ -448,6 +541,12 @@ const rgbToHEX = (rgb) => {
     return "#" + r + g + b;
 }
 
+/**
+ * Convert RGBA colors string into HEX(A) string
+ * @author AS Developers 2021 MIT License
+ * @params rgba as string
+ * @returns output HEX(A) string
+ */
 const rgbaToHEXA = (rgba) => {
   let sep = rgba.indexOf(",") > -1 ? "," : " "; 
   rgba = rgba.substr(5).split(")")[0].split(sep);
@@ -486,6 +585,12 @@ const rgbaToHEXA = (rgba) => {
   return "#" + r + g + b + a;
 }
 
+/**
+ * Convert HSL colors string into HEX string
+ * @author AS Developers 2021 MIT License
+ * @params hsl as string
+ * @returns output HEX string
+ */
 const HSLToHEX = (hsl) => {
   let sep = hsl.indexOf(",") > -1 ? "," : " ";
   hsl = hsl.substr(4).split(")")[0].split(sep);
@@ -540,7 +645,12 @@ const HSLToHEX = (hsl) => {
 
   return "#" + r + g + b;
 }
-
+/**
+ * Convert HSLA colors string into HEX(A) string
+ * @author AS Developers 2021 MIT License
+ * @params hsla as string
+ * @returns output HEX(A) string
+ */
 const HSLAToHEXA = (hsla) => {
   let sep = hsla.indexOf(",") > -1 ? "," : " ";
   hsla = hsla.substr(5).split(")")[0].split(sep);
@@ -603,4 +713,25 @@ const HSLAToHEXA = (hsla) => {
   return "#" + r + g + b + a;
 }
 
-export { hexToHSL, hexAToHSLA, stringToRGBA, stringToRGB, RGBToHSL, rgbaToHSLA, hexToRGB, hexAToRGBA, stringToHSL, HSLToRGB, stringToHSLA, HSLAToRGBA, rgbToHEX, rgbaToHEXA, HSLToHEX, HSLAToHEXA, HSLToCL4HSL, HSLAToCL4HSL, RGBtoCL4RGB, RGBAtoCL4RGB };
+export {
+    hexToHSL,
+    hexAToHSLA,
+    stringToRGBA,
+    stringToRGB,
+    RGBToHSL,
+    rgbaToHSLA,
+    hexToRGB,
+    hexAToRGBA,
+    stringToHSL,
+    HSLToRGB,
+    stringToHSLA,
+    HSLAToRGBA,
+    rgbToHEX,
+    rgbaToHEXA,
+    HSLToHEX,
+    HSLAToHEXA,
+    HSLToCL4HSL,
+    HSLAToCL4HSL,
+    RGBtoCL4RGB,
+    RGBAtoCL4RGB,
+};

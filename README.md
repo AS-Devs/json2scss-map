@@ -175,7 +175,7 @@ Returns a through stream. Available options:
 
 - `prefix`: Add some text to the beginning
 - `suffix`: Add some text to the end. Defaults to `';'`.
-- `colorConvertion`: New Feature to convert only colors value to different color scheme. Defaults to `true`. (from v1.5.0)
+- `colorConversion`: New Feature to convert only colors value to different color scheme. Defaults to `true`. (from v1.5.0)
 - `convertTo`: Right now support convertion for `HSL, RGB, HEX` colors. Defaults to `hsl`.
 - `cl4Syntax`: color lavel 4 new syntax with space separator for the output. Defaults to `false`.
 
