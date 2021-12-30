@@ -4,5 +4,7 @@ usage: json-to-sass {OPTIONS}
   -o, --outfile  Write output to a file. Default: "-" (stdout)
   -p, --prefix   Add some text to the beginning.
   -s, --suffix   Add some text to the end. Default: ";"
-  -cl4, --cl4Syntax This allows the Color Convertion to new Color Space separated Syntax. Default: false 
+  -cc, --colorConversion  This enables colorConversion, if you don't need any conversion at all you need to make it false. Default: true 
+  -ct, --convertTo  This allows the Color Convertion to new HSL, RGB, or HEX completely. Default: 'hsl' 
+  -cl4, --cl4Syntax  This allows the Color Convertion to new Color Space separated Syntax. Default: false 
   -h, --help     Show this message.

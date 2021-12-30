@@ -6,7 +6,8 @@
   "bin": "lib/bin/json2scss",
   "scripts": {
     "test": "make test",
-    "prepare": "npm test"
+    "prepare": "npm test",
+    "postpublish" : "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag v$PACKAGE_VERSION && git push --tags"
   },
   "keywords": ["sass", "JSON","scss","next","dart-scss","colors", "HEX", "HSL", "RGB", "Color Lavel 4"],
   "author": "AS Developers",

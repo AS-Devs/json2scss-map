@@ -15,8 +15,11 @@ let argv = minimist(process.argv.slice(2), {
       h: 'help',
       p: 'prefix',
       s: 'suffix',
+      cc: 'colorConversion',
+      ct: 'convertTo',
+      cl4: 'cl4Syntax'
     },
-    default: { i: '-', o: '-' }
+    default: { i: '-', o: '-', cc: true, ct: 'hsl', cl4: false }
 });
 
 if (argv.help) showHelp(0);
@@ -46,6 +49,9 @@ let opts = {};
 
 if (argv.prefix) opts.prefix = argv.prefix;
 if (argv.suffix) opts.suffix = argv.suffix;
+if (argv.colorConversion) opts.colorConversion = argv.colorConversion;
+if (argv.convertTo) opts.convertTo = argv.convertTo;
+if (argv.cl4Syntax) opts.cl4Syntax = argv.cl4Syntax;
 
 input.pipe(json2scss(opts)).pipe(output);
 
