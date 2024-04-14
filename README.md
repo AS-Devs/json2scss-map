@@ -126,8 +126,20 @@ Example source file `theme.json`:
 From the command-line:
 
 ```sh
-$ json2scss-map -i theme.json -o theme.scss -p "\$variable: "
+$ json2scss-map -i theme.json -o theme.scss -p "\$variable: " -t hex
 ```
+
+### CLI Options:
+
+- `-i`, `--infile`: (Default: standard input `stdin`) Specify the input file.
+- `-o`, `--outfile`: (Default: standard output `stdout`) Designate the output
+  SCSS file.
+- `-p`, `--prefix`: Set a prefix for all SCSS variables.
+- `-s`, `--suffix`: Set a suffix for all SCSS variables.
+- `-c`, `--colorConversion`: (Default: true) Enable or disable color conversion.
+- `-t`, `--convertTo`: (Default: 'hsl') Specify the color format (e.g., `hsl`,
+  `hex`, `rgb`).
+- `-l`, `--cl4Syntax`: (Default: false) Use cl4 syntax if applicable.
 
 Output `theme.scss` with new color convertion to `hsl` by default:
 
