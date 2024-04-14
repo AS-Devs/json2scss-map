@@ -67,9 +67,10 @@ if (argv.infile !== '-' && !fs.existsSync(argv.infile)) {
   process.exit(1);
 }
 
-// Check if the input file has the correct JSON file extension.
-if (argv.infile !== '-' && path.extname(argv.infile) !== '.json') {
-  console.error(`Input file is not a JSON file: ${argv.infile}`);
+// Check if the input file has a valid extension
+const validExtensions = ['.json', '.js'];
+if (argv.infile !== '-' && !validExtensions.includes(path.extname(argv.infile))) {
+  console.error(`Input file is not a valid type. Allowed types: ${validExtensions.join(', ')}: ${argv.infile}`);
   process.exit(1);
 }
 
