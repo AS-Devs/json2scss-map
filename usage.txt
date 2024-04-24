@@ -1,10 +1,13 @@
-usage: json-to-sass {OPTIONS}
+usage: json2scss-map {OPTIONS}
 
-  -i, --infile   Read input from a file. Default: "-" (stdin)
-  -o, --outfile  Write output to a file. Default: "-" (stdout)
-  -p, --prefix   Add some text to the beginning.
-  -s, --suffix   Add some text to the end. Default: ";"
-  -cc, --colorConversion  This enables colorConversion, if you don't need any conversion at all you need to make it false. Default: true 
-  -ct, --convertTo  This allows the Color Convertion to new HSL, RGB, or HEX completely. Default: 'hsl' 
-  -cl4, --cl4Syntax  This allows the Color Convertion to new Color Space separated Syntax. Default: false 
-  -h, --help     Show this message.
+  -i, --infile       (Default: stdin) Specify the input file. If omitted, standard
+                     input is used.
+  -o, --outfile      (Default: stdout) Designate the output SCSS file. If omitted,
+                     standard output is used.
+  -p, --prefix       (Default: none) Set a prefix for all SCSS variables.
+  -s, --suffix       (Default: none) Set a suffix for all SCSS variables.
+  -c, --colorConversion (Default: true) Enable or disable color conversion.
+  -t, --convertTo    (Default: 'hsl') Specify the color format to convert colors
+                     into, e.g., 'hsl', 'hex', 'rgb'.
+  -l, --cl4Syntax    (Default: false) Use cl4 syntax if applicable.
+  -h, --help         Show this help message.

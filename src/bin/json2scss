@@ -2,63 +2,124 @@
 
 'use strict';
 
-let json2scss = require('../json2scss');
-let fs = require('fs');
-let path = require('path');
-let minimist = require('minimist');
-import { Readable } from 'stream';
+const fs = require('fs');
+const path = require('path');
+const minimist = require('minimist');
+const json2scss = require('../json2scss');
+const { Readable } = require('stream');
 
-let argv = minimist(process.argv.slice(2), {
-    alias: {
-      i: 'infile',
-      o: 'outfile',
-      h: 'help',
-      p: 'prefix',
-      s: 'suffix',
-      cc: 'colorConversion',
-      ct: 'convertTo',
-      cl4: 'cl4Syntax'
-    },
-    default: { i: '-', o: '-', cc: true, ct: 'hsl', cl4: false }
+// Aliases for command line arguments to simplify user input.
+const aliases = {
+  i: 'infile',
+  o: 'outfile',
+  h: 'help',
+  p: 'prefix',
+  s: 'suffix',
+  c: 'colorConversion',
+  t: 'convertTo',
+  l: 'cl4Syntax'
+};
+
+const defaultOptions = {
+  infile: '-',
+  outfile: '-',
+  prefix: '',
+  suffix: '',
+  colorConversion: true,
+  convertTo: 'hsl',
+  cl4Syntax: false
+};
+
+// Parse command line arguments using minimist.
+const argv = minimist(process.argv.slice(2), {
+  alias: aliases,
+  default: defaultOptions,
+  boolean: ['colorConversion', 'cl4Syntax'],
+  string: ['convertTo', 'prefix', 'suffix', 'infile', 'outfile'],
+  unknown: (arg) => {
+    // Normalize the argument by stripping leading dashes
+    const cleanArg = arg.replace(/^-+/, '');
+
+    // Build a complete list of all valid keys including aliases and defaults
+    const allValidKeys = new Set([...Object.keys(aliases), ...Object.values(aliases), ...Object.keys(defaultOptions)]);
+
+    // Check if the cleaned argument is not part of the valid keys
+    if (!allValidKeys.has(cleanArg)) {
+      console.error(`The following flags are invalid and will be ignored: ${arg}`);
+      return false;
+    }
+    return true;
+  }
 });
 
-if (argv.help) showHelp(0);
+// Clean up argv by removing any aliases to prevent duplication in downstream processing.
+cleanArgv(argv, aliases);
 
+// Show help message and exit if the help flag is provided.
+if (argv.help) {
+  showHelp(0);
+  return;
+}
+
+// Check if the input file exists and is accessible.
+if (argv.infile !== '-' && !fs.existsSync(argv.infile)) {
+  console.error(`Input file does not exist: ${argv.infile}`);
+  process.exit(1);
+}
+
+// Check if the input file has a valid extension
+const validExtensions = ['.json', '.js'];
+if (argv.infile !== '-' && !validExtensions.includes(path.extname(argv.infile))) {
+  console.error(`Input file is not a valid type. Allowed types: ${validExtensions.join(', ')}: ${argv.infile}`);
+  process.exit(1);
+}
+
+// Ensure the output file's directory is writable.
+const outfileDirectory = argv.outfile === '-' ? '.' : path.dirname(argv.outfile);
+try {
+  fs.accessSync(outfileDirectory, fs.constants.W_OK);
+} catch (err) {
+  console.error(`Output directory is not writable: ${outfileDirectory}`);
+  process.exit(1);
+}
+
+// Configure the input stream based on the infile argument.
 let input;
 if (argv.infile === '-') {
   input = process.stdin;
+} else if (path.extname(argv.infile) === '.js') {
+  let jsModule = require(path.join(process.cwd(), argv.infile));
+  let jsonString = JSON.stringify(jsModule);
+  input = new Readable();
+  input.push(jsonString);
+  input.push(null);
 } else {
-  if (path.extname(argv.infile) === '.js') {
-    input = new Readable();
-
-    let jsModule = require(path.join(process.cwd(), argv.infile));
-    let jsonString = JSON.stringify(jsModule);
-
-    input.push(jsonString);
-    input.push(null);
-  } else {
-    input = fs.createReadStream(argv.infile);
-  }
+  input = fs.createReadStream(argv.infile);
 }
 
+// Configure the output stream based on the outfile argument.
 let output = argv.outfile === '-'
-  ? process.stdout
-  : fs.createWriteStream(argv.outfile);
+    ? process.stdout
+    : fs.createWriteStream(argv.outfile);
 
-let opts = {};
+// Pipe the input through the json2scss transformation and then to the output.
+input.pipe(json2scss(argv)).pipe(output);
 
-if (argv.prefix) opts.prefix = argv.prefix;
-if (argv.suffix) opts.suffix = argv.suffix;
-if (argv.colorConversion) opts.colorConversion = argv.colorConversion;
-if (argv.convertTo) opts.convertTo = argv.convertTo;
-if (argv.cl4Syntax) opts.cl4Syntax = argv.cl4Syntax;
-
-input.pipe(json2scss(opts)).pipe(output);
-
+// Function to display help information from a usage text file.
 function showHelp(code) {
   let r = fs.createReadStream(path.join(__dirname, '../../usage.txt'));
   r.on('end', function () {
     if (code) process.exit(code);
   });
   r.pipe(process.stdout);
+}
+
+// Function to remove alias keys from argv to avoid conflicts.
+function cleanArgv(argv, aliases) {
+  Object.keys(aliases).forEach(alias => {
+    if (alias in argv) {
+      delete argv[alias];
+    }
+  });
+  return argv;
 }
