@@ -1,8 +1,9 @@
 {
   "name": "json2scss-map",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "This is an utility tool for the developers to customizing colors, fonts & other whitelabel stuff and compiling into SCSS variable. So, anyone can change the look & feel of your app in just few steps.",
   "main": "lib/json2scss.js",
+  "typings": "lib/json2scss.d.ts",
   "bin": "lib/bin/json2scss",
   "scripts": {
     "test": "make test",

@@ -1,6 +1,6 @@
 'use strict';
 
-import { expect,  } from 'chai';
+import { expect  } from 'chai';
 import json2scssMap from '../json2scssMap';
 
 function Foo() {

@@ -188,9 +188,9 @@ Convert a normal JavaScript value to its string representation in Sass. Ignores 
 <!-- ROADMAP -->
 ## Roadmap
 
-- [x] Add Changelog
 - [x] Add new Color label 4 syntax support
 - [x] Add Color Convertion to (hsl, rgb, hex)
+- [x] Will move to TypeScript
 - [ ] Add support for Color Lavel 4 Syntax in input stream as well.
 - [ ] Add Support for LCH color scheme convertion.
 - [ ] Add Support for ` % ` value in RGB colors.

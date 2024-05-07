@@ -4,7 +4,7 @@ import json2scssMap from './json2scssMap';
 import through2 from 'through2';
 
 let DEFAULTS = {
-  prefix: '',
+  prefix: '$theme',
   suffix: ';',
   colorConversion: true,
   convertTo: 'hsl',
