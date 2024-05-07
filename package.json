@@ -1,15 +1,26 @@
 {
   "name": "json2scss-map",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "This is an utility tool for the developers to customizing colors, fonts & other whitelabel stuff and compiling into SCSS variable. So, anyone can change the look & feel of your app in just few steps.",
   "main": "lib/json2scss.js",
   "bin": "lib/bin/json2scss",
   "scripts": {
     "test": "make test",
     "prepare": "npm test",
-    "postpublish" : "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag v$PACKAGE_VERSION && git push --tags"
+    "postpublish": "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag v$PACKAGE_VERSION && git push --tags"
   },
-  "keywords": ["sass", "JSON","scss","next","dart-scss","colors", "HEX", "HSL", "RGB", "Color Lavel 4"],
+  "keywords": [
+    "sass",
+    "JSON",
+    "scss",
+    "next",
+    "dart-scss",
+    "colors",
+    "HEX",
+    "HSL",
+    "RGB",
+    "Color Lavel 4"
+  ],
   "author": "AS Developers",
   "repository": {
     "type": "git",
@@ -18,7 +29,7 @@
   "bugs": {
     "url": "https://github.com/AS-Devs/json2scss-map/issues"
   },
-  "homepage": "https://github.com/AS-Devs/json2scss-map", 
+  "homepage": "https://github.com/AS-Devs/json2scss-map",
   "license": "MIT",
   "dependencies": {
     "lodash": "^4.17.21",
